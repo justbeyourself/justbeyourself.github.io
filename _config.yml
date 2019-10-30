@@ -72,14 +72,8 @@ google_analytics:
 url: 
 
 # 添加你的博客的二级域名，一般来说是你的repository名
-<<<<<<< HEAD
-# 如果你的博客的URL是：(http://yourusername.github.io/repository-name)
 # 那么就写成 "/repository-name"
-baseurl: 
-=======
 baseurl: /justbeyourself.github.io
->>>>>>> 51aa9d4c62a20efdbb1f0a565ccaba0c38fae46a
-
 
 #
 # !! 以下所有设置都不需要更改 !!
