@@ -53,7 +53,7 @@ footer-text: Copyright (c) 2019 hangzhou china
 gitalk:
   clientID: 0d23ccf72e53ceec07dd
   clientSecret: 4bab3e418b9d32dce244dd50a707f7f58d63a353
-  repo: justbeyourself
+  repo: justbeyourself.github.io
   owner: justbeyourself
 
 # 输入Google Analytics web tracking code
