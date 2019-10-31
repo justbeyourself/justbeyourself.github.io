@@ -49,11 +49,6 @@ footer-links:
 # 站点页脚的文字
 footer-text: Copyright (c) 2019 hangzhou china
 
-# 评论，注意，请不要同时添加多种不同的评论区
-
-# 输入Disqus shortname，即可添加评论区
-disqus: justbeyourself #shortname
-
 # 输入Gitalk相关设定，即可添加评论区
 gitalk:
   clientID: 0d23ccf72e53ceec07dd
