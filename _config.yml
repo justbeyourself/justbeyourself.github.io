@@ -47,7 +47,7 @@ footer-links:
   youtube: # channel/<your_long_string> or user/<user-name>
 
 # 站点页脚的文字
-footer-text: Copyright (c) 2019 hangzhou china
+footer-text: Copyright (c) 2019 china
 
 # 输入Gitalk相关设定，即可添加评论区
 gitalk:
