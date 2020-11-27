@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="11ab1547-dc84-402a-a735-20b771ee51d7" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/_posts/2018-05-01-git.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_posts/2018-10-29-leaveHome.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_posts/2019-08-15-comeIntoTheWorld.md" beforeDir="false" />
-    </list>
+    <list default="true" id="11ab1547-dc84-402a-a735-20b771ee51d7" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,8 +13,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/_config.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="477">
-              <caret line="100" column="11" selection-start-line="100" selection-start-column="11" selection-end-line="100" selection-end-column="11" />
+            <state relative-caret-position="541">
+              <caret line="103" selection-start-line="103" selection-end-line="103" />
             </state>
           </provider>
         </entry>
@@ -90,16 +86,19 @@
       </MavenImportingSettings>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="y" value="23" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="117" />
+    <option name="y" value="62" />
     <option name="width" value="1440" />
-    <option name="height" value="796" />
+    <option name="height" value="809" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -111,14 +110,13 @@
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
+      <pane id="CatdeaLogs" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1572937865664" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1583981270916" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -154,6 +152,11 @@
       <workItem from="1572437922201" duration="6863000" />
       <workItem from="1572502412311" duration="13920000" />
       <workItem from="1572837138893" duration="2661000" />
+      <workItem from="1583981263320" duration="51000" />
+      <workItem from="1584079140425" duration="28000" />
+      <workItem from="1594107729159" duration="203000" />
+      <workItem from="1594607170394" duration="46000" />
+      <workItem from="1605857106892" duration="30000" />
     </task>
     <task id="LOCAL-00001" summary="修改博客二级域名">
       <created>1572438426314</created>
@@ -351,17 +354,37 @@
       <option name="project" value="LOCAL" />
       <updated>1572849101726</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="blog update">
+      <created>1584079157689</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1584079157689</updated>
+    </task>
+    <task id="LOCAL-00030" summary="blog update">
+      <created>1594607196329</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1594607196329</updated>
+    </task>
+    <task id="LOCAL-00031" summary="blog update">
+      <created>1605857125989</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1605857125989</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="23444000" />
+    <option name="totallyTimeSpent" value="23802000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1440" height="796" extended-state="6" />
-    <editor active="true" />
+    <frame x="117" y="62" width="1440" height="809" extended-state="0" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.15850145" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.17291066" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -559,8 +582,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/_config.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="477">
-          <caret line="100" column="11" selection-start-line="100" selection-start-column="11" selection-end-line="100" selection-end-column="11" />
+        <state relative-caret-position="541">
+          <caret line="103" selection-start-line="103" selection-end-line="103" />
         </state>
       </provider>
     </entry>
