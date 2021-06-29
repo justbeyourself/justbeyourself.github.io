@@ -1,11 +1,11 @@
-name: 
-author: 
-url: 
-baseurl: 
-resume_site: 
-description: 
-github_username: 
-github: 
+name: 勇丶敢做自己 Blog
+author: justbeyourself
+url: https://justbeyourself.github.io/
+resume_site: https://justbeyourself.github.io/
+baseurl:
+description: 随便写写
+github_username: justbeyourself
+github: https://justbeyourself.github.io/
 plugins: [jekyll-paginate]
 permalink: /:year-:month-:day-:title
 paginate: 12
@@ -14,9 +14,8 @@ exclude: ['README.md', 'Gemfile.lock', 'Gemfile', 'Rakefile']
 highlighter: rouge
 markdown: kramdown
 comments :
-  gitalk :
-    clientID : 
-    clientSecret : 
-    repo : 
-    owner : 
-    admin : 
+  gitalk:
+    clientID: 0d23ccf72e53ceec07dd
+    clientSecret: 4bab3e418b9d32dce244dd50a707f7f58d63a353
+    repo: justbeyourself.github.io
+    owner: justbeyourself
