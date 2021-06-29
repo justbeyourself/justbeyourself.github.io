@@ -1,12 +1,11 @@
 ---
-layout: page
-title: About
-permalink: /about/
+layout: post
+title: About site
 ---
 
-happy work,happy life.
+* content
+{:toc}
 
+## Introduction
 
-
-
-
+some description...

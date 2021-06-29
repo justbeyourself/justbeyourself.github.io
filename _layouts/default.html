@@ -1,34 +1,15 @@
 <!DOCTYPE html>
 <html>
+
   {% include head.html %}
-  <body>
-    {% include nav.html %}
 
-    {% if page.toc==true %}
-      <aside class="toc">
-        {% include toc.html html=content %}
-      </aside>
-    {% endif %}
+<body class="bg-grey" gtools_scp_screen_capture_injected="true">
 
-    <div id="main" role="main" class="wrapper-content">
-      <div class="container">
-        {{ content }}
-      </div>
-    </div>
+    {% include header.html %}
 
-    {% include analytics.html %}
+    {{ content }}
+    
+    {% include footer.html %}
+
   </body>
-
-  {% if page.toc==true %}
-  <script>
-    document.getElementById("main").classList.add("withtoc");
-  </script>
-  {% endif %}
-
-  <div class="wrapper-footer-mobile">
-    <footer class="footer">
-      {% include footer.html %}
-    </footer>
-
-
 </html>
