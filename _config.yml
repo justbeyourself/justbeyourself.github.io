@@ -5,7 +5,7 @@ resume_site: https://justbeyourself.github.io/
 baseurl:
 description: 随便写写
 github_username: justbeyourself
-github: https://justbeyourself.github.io/
+github: https://github.com/justbeyourself
 plugins: [jekyll-paginate]
 permalink: /:year-:month-:day-:title
 paginate: 12
