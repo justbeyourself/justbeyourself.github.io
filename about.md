@@ -1,11 +1,6 @@
 ---
 layout: post
-title: About site
+title: hello world
 ---
 
-* content
-{:toc}
-
-## Introduction
-
-some description...
+Just be yourself and one day you will find someone who loves you for everything you are.
