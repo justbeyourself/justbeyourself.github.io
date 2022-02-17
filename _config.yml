@@ -19,3 +19,5 @@ comments :
     clientSecret: 4bab3e418b9d32dce244dd50a707f7f58d63a353
     repo: justbeyourself.github.io
     owner: justbeyourself
+
+theme: jekyll-theme-cayman
