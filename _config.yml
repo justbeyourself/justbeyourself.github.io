@@ -1,23 +1,22 @@
-name: 勇丶敢做自己 Blog
-author: justbeyourself
-url: https://justbeyourself.github.io/
-resume_site: https://justbeyourself.github.io/
-baseurl:
-description: 随便写写
-github_username: justbeyourself
-github: https://github.com/justbeyourself
-plugins: [jekyll-paginate]
-permalink: /:year-:month-:day-:title
-paginate: 12
-paginate_path: "/page/:num/"
-exclude: ['README.md', 'Gemfile.lock', 'Gemfile', 'Rakefile']
-highlighter: rouge
-markdown: kramdown
-comments :
-  gitalk:
-    clientID: 0d23ccf72e53ceec07dd
-    clientSecret: 4bab3e418b9d32dce244dd50a707f7f58d63a353
-    repo: justbeyourself.github.io
-    owner: justbeyourself
+# ----------- CONFIGURABLE START -----------
+title:            "勇敢做自己"
+description:      "just be yourself."
+url:              https://justbeyourself.github.io # Site url, without a slash at the end.
+signoff:          "muan" # Your name
+facebook_appid:   # APP ID for like button, remove from /_includes/share.html if unwanted.
+google_analytics: # Set tracking, remove from /javascripts/basic.js if unwanted.
+share:            false # Turn on twitter and facebook share buttons
 
-theme: jekyll-theme-cayman
+links:
+  - name:         Posts
+    url:          /
+    external:     false
+  - name:         About me
+    url:          /about
+    external:     false
+# ------------ CONFIGURABLE END ------------
+
+permalink:        /posts/:title
+defaults:
+  - values:
+      layout: "default"
