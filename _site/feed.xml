@@ -1,0 +1,1018 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>勇敢做自己</title>
+    <description>just be yourself.</description>
+    <link>http://localhost:4000</link>
+    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
+    
+      <item>
+        <title>Nginx 对指定 URL 做鉴权</title>
+        <description>&lt;h1 id=&quot;nginx-对指定-url-做鉴权&quot;&gt;Nginx 对指定 URL 做鉴权&lt;/h1&gt;
+
+&lt;h2 id=&quot;配置示例&quot;&gt;配置示例&lt;/h2&gt;
+
+&lt;div class=&quot;language-nginx highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;server&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kn&quot;&gt;listen&lt;/span&gt;       &lt;span class=&quot;mi&quot;&gt;80&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;kn&quot;&gt;listen&lt;/span&gt;  &lt;span class=&quot;s&quot;&gt;[::]:80&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;kn&quot;&gt;server_name&lt;/span&gt;  &lt;span class=&quot;s&quot;&gt;localhost&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;# access_log /var/log/nginx/host.access.log main;
+&lt;/span&gt;
+    &lt;span class=&quot;kn&quot;&gt;location&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;kn&quot;&gt;root&lt;/span&gt;   &lt;span class=&quot;n&quot;&gt;/usr/share/nginx/html&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;kn&quot;&gt;index&lt;/span&gt;  &lt;span class=&quot;s&quot;&gt;index.html&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;index.htm&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;kn&quot;&gt;error_page&lt;/span&gt;   &lt;span class=&quot;mi&quot;&gt;500&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;502&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;503&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;504&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;/50x.html&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;kn&quot;&gt;location&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;/50x.html&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;kn&quot;&gt;root&lt;/span&gt;   &lt;span class=&quot;n&quot;&gt;/usr/share/nginx/html&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;kn&quot;&gt;location&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;/share&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;kn&quot;&gt;set&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$id&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;kn&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$request_uri&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;~&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;^/share/([^/]+)&quot;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;kn&quot;&gt;set&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$id&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+        &lt;span class=&quot;kn&quot;&gt;set&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$ssoToken&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;kn&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$http_cookie&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;~&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;ssoToken=(.*?)(?:&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;kn&quot;&gt;|&lt;/span&gt;$&lt;span class=&quot;s&quot;&gt;)&quot;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;kn&quot;&gt;set&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$ssoToken&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+        &lt;span class=&quot;kn&quot;&gt;auth_request&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;/test/auth?id=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$id&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;amp;ssoToken=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$ssoToken&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;kn&quot;&gt;auth_request_set&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$auth_status&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$upstream_status&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+        &lt;span class=&quot;c1&quot;&gt;# 鉴权失败返回 401
+&lt;/span&gt;        &lt;span class=&quot;kn&quot;&gt;error_page&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;401&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;/401.html&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;kn&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$auth_status&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;401&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;kn&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;401&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+        &lt;span class=&quot;c1&quot;&gt;# 设置 header 以便目标服务器获取原始请求信息
+&lt;/span&gt;        &lt;span class=&quot;kn&quot;&gt;proxy_set_header&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;X-Original-URI&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$request_uri&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;kn&quot;&gt;proxy_set_header&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;X-Original-METHOD&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$request_method&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;kn&quot;&gt;proxy_pass_request_body&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;off&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;kn&quot;&gt;proxy_set_header&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Content-Length&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+        &lt;span class=&quot;c1&quot;&gt;# 转发请求到目标服务器
+&lt;/span&gt;        &lt;span class=&quot;kn&quot;&gt;proxy_pass&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;http://10.10.1.11:8001&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;# 鉴权服务的配置
+&lt;/span&gt;    &lt;span class=&quot;kn&quot;&gt;location&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;/test/auth&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;# 后端鉴权服务的地址
+&lt;/span&gt;        &lt;span class=&quot;kn&quot;&gt;internal&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;kn&quot;&gt;proxy_pass&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;http://10.10.1.11:8001/test/auth?id=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$id&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;amp;ssoToken=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$ssoToken&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+</description>
+        <pubDate>Mon, 03 Apr 2023 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/posts/nginx</link>
+        <guid isPermaLink="true">http://localhost:4000/posts/nginx</guid>
+      </item>
+    
+      <item>
+        <title>分布式缓存基础</title>
+        <description>&lt;h1 id=&quot;分布式缓存基础&quot;&gt;分布式缓存基础&lt;/h1&gt;
+
+&lt;h2 id=&quot;常用框架&quot;&gt;常用框架&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;JetCache&lt;/strong&gt;: 阿里巴巴开源的通用缓存访问框架。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;进程内缓存框架&quot;&gt;进程内缓存框架&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Guava Cache&lt;/strong&gt;: Google 开发的本地缓存工具。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;缓存常见问题&quot;&gt;缓存常见问题&lt;/h2&gt;
+
+&lt;h3 id=&quot;1-二级缓存更新问题&quot;&gt;1. 二级缓存更新问题&lt;/h3&gt;
+&lt;p&gt;如何保证本地缓存与分布式缓存的一致性？&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;方案一&lt;/strong&gt;: 设置较短的一级缓存失效时间。&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;方案二&lt;/strong&gt;: 使用消息队列 (MQ) 通知机制，当二级缓存更新时，发送消息通知所有节点失效其本地缓存。&lt;/li&gt;
+&lt;/ul&gt;
+
+</description>
+        <pubDate>Wed, 01 Jun 2022 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/posts/%E5%88%86%E5%B8%83%E5%BC%8F</link>
+        <guid isPermaLink="true">http://localhost:4000/posts/%E5%88%86%E5%B8%83%E5%BC%8F</guid>
+      </item>
+    
+      <item>
+        <title>Kafka 常用命令</title>
+        <description>&lt;h1 id=&quot;kafka-常用命令&quot;&gt;Kafka 常用命令&lt;/h1&gt;
+
+&lt;h2 id=&quot;启动与重启&quot;&gt;启动与重启&lt;/h2&gt;
+
+&lt;h3 id=&quot;zookeeper-启动&quot;&gt;ZooKeeper 启动&lt;/h3&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# 开启 ZooKeeper (备注：先进入 ZooKeeper 的 bin 目录)&lt;/span&gt;
+./zkServer.sh start
+
+&lt;span class=&quot;c&quot;&gt;# 关闭 ZooKeeper (备注：先进入 ZooKeeper 的 bin 目录)&lt;/span&gt;
+./zkServer.sh stop
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;kafka-启动&quot;&gt;Kafka 启动&lt;/h3&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# 常规模式启动 Kafka (备注：先进入 Kafka 目录)&lt;/span&gt;
+bin/kafka-server-start.sh config/server.properties
+
+&lt;span class=&quot;c&quot;&gt;# 进程守护模式启动 Kafka&lt;/span&gt;
+nohup bin/kafka-server-start.sh config/server.properties &amp;gt;/dev/null 2&amp;gt;&amp;amp;1 &amp;amp; 
+
+&lt;span class=&quot;c&quot;&gt;# Kafka 关闭&lt;/span&gt;
+bin/kafka-server-stop.sh
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;topic-操作&quot;&gt;Topic 操作&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# 创建 Topic (4个分区，2个副本)&lt;/span&gt;
+bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 2 --partitions 4 --topic &lt;span class=&quot;nb&quot;&gt;test&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# Kafka 版本 &amp;gt;= 2.2&lt;/span&gt;
+bin/kafka-topics.sh --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic &lt;span class=&quot;nb&quot;&gt;test&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# 分区扩容 (Kafka 版本 &amp;lt; 2.2)&lt;/span&gt;
+bin/kafka-topics.sh --zookeeper localhost:2181 --alter --topic topic1 --partitions 2
+
+&lt;span class=&quot;c&quot;&gt;# 分区扩容 (Kafka 版本 &amp;gt;= 2.2)&lt;/span&gt;
+bin/kafka-topics.sh --bootstrap-server broker_host:port --alter --topic topic1 --partitions 2
+
+&lt;span class=&quot;c&quot;&gt;# 删除 Topic&lt;/span&gt;
+bin/kafka-topics.sh --zookeeper localhost:2181 --delete --topic &lt;span class=&quot;nb&quot;&gt;test&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# 查询集群描述&lt;/span&gt;
+bin/kafka-topics.sh --describe --zookeeper 127.0.0.1:2181
+
+&lt;span class=&quot;c&quot;&gt;# 查询集群描述 (新)&lt;/span&gt;
+bin/kafka-topics.sh --bootstrap-server localhost:9092 --topic foo --describe
+
+&lt;span class=&quot;c&quot;&gt;# Topic 列表查询&lt;/span&gt;
+bin/kafka-topics.sh --zookeeper 127.0.0.1:2181 --list
+
+&lt;span class=&quot;c&quot;&gt;# Topic 列表查询 (支持 0.9 版本+)&lt;/span&gt;
+bin/kafka-topics.sh --list --bootstrap-server localhost:9092
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;消费者组管理&quot;&gt;消费者组管理&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# 消费者列表查询 (存储在 zk 中的)&lt;/span&gt;
+bin/kafka-consumer-groups.sh --zookeeper localhost:2181 --list
+
+&lt;span class=&quot;c&quot;&gt;# 消费者列表查询 (支持 0.9 版本+)&lt;/span&gt;
+bin/kafka-consumer-groups.sh --new-consumer --bootstrap-server localhost:9092 --list
+
+&lt;span class=&quot;c&quot;&gt;# 消费者列表查询 (支持 0.10 版本+)&lt;/span&gt;
+bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --list
+
+&lt;span class=&quot;c&quot;&gt;# 显示某个消费组的消费详情 (仅支持 offset 存储在 ZooKeeper 上的)&lt;/span&gt;
+bin/kafka-run-class.sh kafka.tools.ConsumerOffsetChecker --zookeeper localhost:2181 --group &lt;span class=&quot;nb&quot;&gt;test&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# 显示某个消费组的消费详情 (0.9 版本 - 0.10.1.0 之前)&lt;/span&gt;
+bin/kafka-consumer-groups.sh --new-consumer --bootstrap-server localhost:9092 --describe --group &lt;span class=&quot;nb&quot;&gt;test&lt;/span&gt;-consumer-group
+
+&lt;span class=&quot;c&quot;&gt;# 显示某个消费组的消费详情 (0.10.1.0 版本+)&lt;/span&gt;
+bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --describe --group my-group
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;生产与消费&quot;&gt;生产与消费&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# 生产者&lt;/span&gt;
+bin/kafka-console-producer.sh --broker-list localhost:9092 --topic &lt;span class=&quot;nb&quot;&gt;test&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# 消费者&lt;/span&gt;
+bin/kafka-console-consumer.sh --zookeeper localhost:2181 --topic &lt;span class=&quot;nb&quot;&gt;test&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# 生产者 (支持 0.9 版本+)&lt;/span&gt;
+bin/kafka-console-producer.sh --broker-list localhost:9092 --topic &lt;span class=&quot;nb&quot;&gt;test&lt;/span&gt; --producer.config config/producer.properties
+
+&lt;span class=&quot;c&quot;&gt;# 消费者 (支持 0.9 版本+)&lt;/span&gt;
+bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic &lt;span class=&quot;nb&quot;&gt;test&lt;/span&gt; --new-consumer --from-beginning --consumer.config config/consumer.properties
+
+&lt;span class=&quot;c&quot;&gt;# 消费者 (最新)&lt;/span&gt;
+bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic &lt;span class=&quot;nb&quot;&gt;test&lt;/span&gt; --from-beginning --consumer.config config/consumer.properties
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;其他工具&quot;&gt;其他工具&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# kafka-verifiable-consumer.sh (消费者事件，例如：offset 提交等)&lt;/span&gt;
+bin/kafka-verifiable-consumer.sh --broker-list localhost:9092 --topic &lt;span class=&quot;nb&quot;&gt;test&lt;/span&gt; --group-id groupName
+
+&lt;span class=&quot;c&quot;&gt;# 高级用法&lt;/span&gt;
+bin/kafka-simple-consumer-shell.sh --brist localhost:9092 --topic &lt;span class=&quot;nb&quot;&gt;test&lt;/span&gt; --partition 0 --offset 1234 --max-messages 10
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+</description>
+        <pubDate>Tue, 05 Apr 2022 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/posts/kafka</link>
+        <guid isPermaLink="true">http://localhost:4000/posts/kafka</guid>
+      </item>
+    
+      <item>
+        <title>消息队列 (MQ) 基础知识</title>
+        <description>&lt;h1 id=&quot;消息队列-mq-基础知识&quot;&gt;消息队列 (MQ) 基础知识&lt;/h1&gt;
+
+&lt;h2 id=&quot;rabbitmq&quot;&gt;RabbitMQ&lt;/h2&gt;
+
+&lt;h3 id=&quot;主要组成&quot;&gt;主要组成&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Producer&lt;/strong&gt;: 生产者&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Consumer&lt;/strong&gt;: 消费者&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Broker&lt;/strong&gt;: 消息中间件的服务节点&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Queue&lt;/strong&gt;: 队列，RabbitMQ 的内部对象，用于存储消息&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;订阅模式&quot;&gt;订阅模式&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;多个消费者可以订阅同一个队列，通常以平均分摊的方式消费。&lt;/li&gt;
+  &lt;li&gt;不支持队列层面的广播消息。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;交换器-exchange&quot;&gt;交换器 (Exchange)&lt;/h3&gt;
+&lt;p&gt;RabbitMQ 常用的交换器类型有：&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;fanout&lt;/strong&gt;: 相当于广播消息，广播到所有绑定到该交换器的队列。&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;direct&lt;/strong&gt;: 路由到 RoutingKey 与 BindingKey 完全匹配的队列。&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;topic&lt;/strong&gt;: 通过通配符匹配 RoutingKey 和 BindingKey。&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;headers&lt;/strong&gt;: 根据消息内容中的 headers 属性进行匹配。&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>Thu, 03 Mar 2022 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/posts/mq</link>
+        <guid isPermaLink="true">http://localhost:4000/posts/mq</guid>
+      </item>
+    
+      <item>
+        <title>Maven 常用命令</title>
+        <description>&lt;h1 id=&quot;maven-常用命令&quot;&gt;Maven 常用命令&lt;/h1&gt;
+
+&lt;h2 id=&quot;版本管理&quot;&gt;版本管理&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# 修改版本&lt;/span&gt;
+mvn versions:set -DnewVersion&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;1.0-dev
+
+&lt;span class=&quot;c&quot;&gt;# 清理并构建&lt;/span&gt;
+mvn clean package -DskipTests
+
+&lt;span class=&quot;c&quot;&gt;# 回滚版本修改&lt;/span&gt;
+mvn versions:revert
+
+&lt;span class=&quot;c&quot;&gt;# 确认版本修改&lt;/span&gt;
+mvn versions:commit
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+</description>
+        <pubDate>Mon, 22 Feb 2021 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/posts/maven</link>
+        <guid isPermaLink="true">http://localhost:4000/posts/maven</guid>
+      </item>
+    
+      <item>
+        <title>Study</title>
+        <description>
+&lt;p&gt;[TOC]&lt;/p&gt;
+
+&lt;h2 id=&quot;jvm&quot;&gt;JVM&lt;/h2&gt;
+
+&lt;h3 id=&quot;gc&quot;&gt;GC&lt;/h3&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;查看GC回收器类型&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;java -XX:+PrintCommandLineFlags -version
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;-XX:InitialHeapSize=67108864 -XX:MaxHeapSize=1073741824 -XX:+PrintCommandLineFlags -XX:+UseCompressedClassPointers -XX:+UseCompressedOops -XX:+UseParallelGC 
+java version &quot;1.8.0_131&quot;
+Java(TM) SE Runtime Environment (build 1.8.0_131-b11)
+Java HotSpot(TM) 64-Bit Server VM (build 25.131-b11, mixed mode)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;查看详细信息&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;java -XX:+PrintGCDetails -version
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;java version &quot;1.8.0_131&quot;
+Java(TM) SE Runtime Environment (build 1.8.0_131-b11)
+Java HotSpot(TM) 64-Bit Server VM (build 25.131-b11, mixed mode)
+Heap
+ PSYoungGen      total 18944K, used 983K [0x00000000eab00000, 0x00000000ec000000, 0x0000000100000000)
+  eden space 16384K, 6% used [0x00000000eab00000,0x00000000eabf5dc8,0x00000000ebb00000)
+  from space 2560K, 0% used [0x00000000ebd80000,0x00000000ebd80000,0x00000000ec000000)
+  to   space 2560K, 0% used [0x00000000ebb00000,0x00000000ebb00000,0x00000000ebd80000)
+ ParOldGen       total 44032K, used 0K [0x00000000c0000000, 0x00000000c2b00000, 0x00000000eab00000)
+  object space 44032K, 0% used [0x00000000c0000000,0x00000000c0000000,0x00000000c2b00000)
+ Metaspace       used 2226K, capacity 4480K, committed 4480K, reserved 1056768K
+  class space    used 243K, capacity 384K, committed 384K, reserved 1048576K
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;jmap&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;jmap -heap 1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+Attaching to process ID 1, please wait...
+Debugger attached successfully.
+Server compiler detected.
+JVM version is 25.131-b11
+
+using thread-local object allocation.
+Parallel GC with 13 thread(s)
+
+Heap Configuration:
+   MinHeapFreeRatio         = 0
+   MaxHeapFreeRatio         = 100
+   MaxHeapSize              = 4194304000 (4000.0MB)
+   NewSize                  = 1397751808 (1333.0MB)
+   MaxNewSize               = 1397751808 (1333.0MB)
+   OldSize                  = 2796552192 (2667.0MB)
+   NewRatio                 = 2
+   SurvivorRatio            = 8
+   MetaspaceSize            = 21807104 (20.796875MB)
+   CompressedClassSpaceSize = 1073741824 (1024.0MB)
+   MaxMetaspaceSize         = 17592186044415 MB
+   G1HeapRegionSize         = 0 (0.0MB)
+
+Heap Usage:
+PS Young Generation
+Eden Space:
+   capacity = 1393557504 (1329.0MB)
+   used     = 1026798680 (979.2315292358398MB)
+   free     = 366758824 (349.76847076416016MB)
+   73.68183064227539% used
+From Space:
+   capacity = 2097152 (2.0MB)
+   used     = 1523792 (1.4532012939453125MB)
+   free     = 573360 (0.5467987060546875MB)
+   72.66006469726562% used
+To Space:
+   capacity = 2097152 (2.0MB)
+   used     = 0 (0.0MB)
+   free     = 2097152 (2.0MB)
+   0.0% used
+PS Old Generation
+   capacity = 2796552192 (2667.0MB)
+   used     = 98879216 (94.29856872558594MB)
+   free     = 2697672976 (2572.701431274414MB)
+   3.5357543579147332% used
+
+34720 interned Strings occupying 3367832 bytes.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;jinfo -flags 1
+Attaching to process ID 1, please wait...
+Debugger attached successfully.
+Server compiler detected.
+JVM version is 25.131-b11
+Non-default VM flags: -XX:CICompilerCount=12 -XX:InitialHeapSize=4194304000 -XX:MaxHeapSize=4194304000 -XX:MaxNewSize=1397751808 -XX:MinHeapDeltaBytes=524288 -XX:NewSize=1397751808 -XX:OldSize=2796552192 -XX:ThreadStackSize=256 -XX:+UseCompressedClassPointers -XX:+UseCompressedOops -XX:+UseFastUnorderedTimeStamps -XX:+UseParallelGC 
+Command line:  -Dfile.encoding=UTF8 -Duser.timezone=GMT+08 -Xms4000m -Xmx4000m -Xss256K
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;java8-新特性&quot;&gt;java8 新特性&lt;/h2&gt;
+
+&lt;h3 id=&quot;1接口默认方法&quot;&gt;1.接口默认方法&lt;/h3&gt;
+
+&lt;p&gt;java8 允许我们给接口添加一个非抽象的方法实现，使用default关键字即可&lt;/p&gt;
+
+</description>
+        <pubDate>Tue, 15 Sep 2020 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/posts/study</link>
+        <guid isPermaLink="true">http://localhost:4000/posts/study</guid>
+      </item>
+    
+      <item>
+        <title>mysql闪回</title>
+        <description>&lt;blockquote&gt;
+  &lt;p&gt;引用 &lt;a href=&quot;https://github.com/danfengcao/binlog2sql&quot;&gt;binlog2sql&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h1 id=&quot;binlog2sql&quot;&gt;binlog2sql&lt;/h1&gt;
+
+&lt;p&gt;从 MySQL binlog 解析出你要的 SQL。根据不同选项，你可以得到原始 SQL、回滚 SQL、去除主键 the INSERT SQL 等。&lt;/p&gt;
+
+&lt;h2 id=&quot;用途&quot;&gt;用途&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;数据快速回滚 (闪回)&lt;/li&gt;
+  &lt;li&gt;主从切换后新 master 丢数据的修复&lt;/li&gt;
+  &lt;li&gt;从 binlog 生成标准 SQL，带来的衍生功能&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;环境&quot;&gt;环境&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;已测试环境&lt;/strong&gt;
+    &lt;ul&gt;
+      &lt;li&gt;Python 2.7, 3.4+&lt;/li&gt;
+      &lt;li&gt;MySQL 5.6, 5.7&lt;/li&gt;
+      &lt;li&gt;&lt;em&gt;注：MySQL 8.0 PyMySQL==0.9.3 必须是这个版本&lt;/em&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;安装&quot;&gt;安装&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git clone https://github.com/danfengcao/binlog2sql.git &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;binlog2sql
+pip install -r requirements.txt
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;em&gt;git 与 pip 的安装问题请自行搜索解决。&lt;/em&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;使用&quot;&gt;使用&lt;/h2&gt;
+
+&lt;h3 id=&quot;mysql-server-必须设置以下参数&quot;&gt;MySQL Server 必须设置以下参数&lt;/h3&gt;
+
+&lt;div class=&quot;language-ini highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nn&quot;&gt;[mysqld]&lt;/span&gt;
+&lt;span class=&quot;py&quot;&gt;server_id&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;1&lt;/span&gt;
+&lt;span class=&quot;py&quot;&gt;log_bin&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;/var/log/mysql/mysql-bin.log&lt;/span&gt;
+&lt;span class=&quot;py&quot;&gt;max_binlog_size&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;1G&lt;/span&gt;
+&lt;span class=&quot;py&quot;&gt;binlog_format&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;row&lt;/span&gt;
+&lt;span class=&quot;py&quot;&gt;binlog_row_image&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;full&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;user-需要的最小权限集合&quot;&gt;User 需要的最小权限集合&lt;/h3&gt;
+
+&lt;div class=&quot;language-sql highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;-- 最小权限：select, super/replication client, replication slave&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;-- 建议授权&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;GRANT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;REPLICATION&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SLAVE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;REPLICATION&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CLIENT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;ON&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;TO&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'user'&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'host'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;权限说明&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;select&lt;/code&gt;：需要读取 server 端 &lt;code class=&quot;highlighter-rouge&quot;&gt;information_schema.COLUMNS&lt;/code&gt; 表，获取表结构的元信息，拼接成可视化的 SQL 语句。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;super/replication client&lt;/code&gt;：两个权限都可以，需要执行 &lt;code class=&quot;highlighter-rouge&quot;&gt;SHOW MASTER STATUS&lt;/code&gt;，获取 server 端的 binlog 列表。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;replication slave&lt;/code&gt;：通过 &lt;code class=&quot;highlighter-rouge&quot;&gt;BINLOG_DUMP&lt;/code&gt; 协议获取 binlog 内容的权限。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;基本用法&quot;&gt;基本用法&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;解析出标准 SQL&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;python binlog2sql.py -h127.0.0.1 -P3306 -uadmin -p&lt;span class=&quot;s1&quot;&gt;'admin'&lt;/span&gt; -dtest -t test3 test4 --start-file&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'mysql-bin.000002'&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# 输出：&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# INSERT INTO `test`.`test3`(`addtime`, `data`, `id`) VALUES ('2016-12-10 13:03:38', 'english', 4);&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# UPDATE `test`.`test3` SET `addtime`='2016-12-10 12:00:00', `data`='中文', `id`=3 WHERE `addtime`='2016-12-10 13:03:22' AND `data`='中文' AND `id`=3 LIMIT 1;&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# DELETE FROM `test`.`test3` WHERE `addtime`='2016-12-10 13:03:38' AND `data`='english' AND `id`=4 LIMIT 1;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;解析出回滚 SQL&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;python binlog2sql.py --flashback -h127.0.0.1 -P3306 -uadmin -p&lt;span class=&quot;s1&quot;&gt;'admin'&lt;/span&gt; -dtest -ttest3 --start-file&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'mysql-bin.000002'&lt;/span&gt; --start-position&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;763 --stop-position&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;1147
+
+&lt;span class=&quot;c&quot;&gt;# 输出：&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# INSERT INTO `test`.`test3`(`addtime`, `data`, `id`) VALUES ('2016-12-10 13:03:38', 'english', 4);&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# UPDATE `test`.`test3` SET `addtime`='2016-12-10 13:03:22', `data`='中文', `id`=3 WHERE `addtime`='2016-12-10 12:00:00' AND `data`='中文' AND `id`=3 LIMIT 1;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;选项说明&quot;&gt;选项说明&lt;/h2&gt;
+
+&lt;h3 id=&quot;mysql-连接配置&quot;&gt;MySQL 连接配置&lt;/h3&gt;
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;-h host; -P port; -u user; -p password&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;解析模式&quot;&gt;解析模式&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;--stop-never&lt;/code&gt;：持续解析 binlog。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;-K, --no-primary-key&lt;/code&gt;：对 INSERT 语句去除主键。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;-B, --flashback&lt;/code&gt;：生成回滚 SQL。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;--back-interval&lt;/code&gt;：&lt;code class=&quot;highlighter-rouge&quot;&gt;-B&lt;/code&gt; 模式下，每打印一千行回滚 SQL，加一句 SLEEP 多少秒。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;解析范围控制&quot;&gt;解析范围控制&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;--start-file&lt;/code&gt;：起始解析文件。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;--start-position/--start-pos&lt;/code&gt;：起始解析位置。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;--stop-file/--end-file&lt;/code&gt;：终止解析文件。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;--stop-position/--end-pos&lt;/code&gt;：终止解析位置。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;--start-datetime&lt;/code&gt;：起始解析时间。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;--stop-datetime&lt;/code&gt;：终止解析时间。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;对象过滤&quot;&gt;对象过滤&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;-d, --databases&lt;/code&gt;：只解析目标 db 的 SQL。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;-t, --tables&lt;/code&gt;：只解析目标 table 的 SQL。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;--only-dml&lt;/code&gt;：只解析 DML，忽略 DDL。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;--sql-type&lt;/code&gt;：只解析指定类型 (INSERT, UPDATE, DELETE)。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;应用案例&quot;&gt;应用案例&lt;/h2&gt;
+
+&lt;h3 id=&quot;误删整张表数据需要紧急回滚&quot;&gt;误删整张表数据，需要紧急回滚&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;1. 模拟误操作&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;language-sql highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;-- test 库 tbl 表原有数据&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;mysql&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;select&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tbl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;----+--------+---------------------+&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;   &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;addtime&lt;/span&gt;             &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;----+--------+---------------------+&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;  &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;小赵&lt;/span&gt;   &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2016&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;12&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;00&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;04&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;33&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;  &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;小钱&lt;/span&gt;   &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2016&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;12&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;00&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;04&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;48&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;  &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;小孙&lt;/span&gt;   &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2016&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;12&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;13&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;25&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;00&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;  &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;小李&lt;/span&gt;   &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2016&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;12&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;12&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;00&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;00&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;00&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;----+--------+---------------------+&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;-- 误操作清空表&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;mysql&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;delete&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tbl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;Query&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OK&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;rows&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;affected&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;00&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sec&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;2. 查看当前 binlog&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;language-sql highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;mysql&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;show&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;master&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;status&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;---------------+----------+&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;File&lt;/span&gt;          &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;Position&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;---------------+----------+&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;binlog&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;000023&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;  &lt;span class=&quot;mi&quot;&gt;1036958&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;---------------+----------+&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;3. 定位误操作 SQL 的位置&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;python binlog2sql/binlog2sql.py -h127.0.0.1 -P3306 -uadmin -p&lt;span class=&quot;s1&quot;&gt;'admin'&lt;/span&gt; -dtest -ttbl --start-file&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'mysql-bin.000052'&lt;/span&gt; --start-datetime&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'2016-12-13 20:25:00'&lt;/span&gt; --stop-datetime&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'2016-12-13 20:30:00'&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;4. 生成回滚 SQL&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;python binlog2sql/binlog2sql.py -h127.0.0.1 -P3306 -uadmin -p&lt;span class=&quot;s1&quot;&gt;'admin'&lt;/span&gt; -dtest -ttbl --start-file&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'mysql-bin.000052'&lt;/span&gt; --start-position&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;3346 --stop-position&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;3556 -B &amp;gt; rollback.sql
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;5. 执行回滚并确认&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mysql -h127.0.0.1 -P3306 -uadmin -p&lt;span class=&quot;s1&quot;&gt;'admin'&lt;/span&gt; &amp;lt; rollback.sql
+
+&lt;span class=&quot;gp&quot;&gt;mysql&amp;gt; &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;select&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;*&lt;/span&gt; from tbl;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+</description>
+        <pubDate>Tue, 11 Aug 2020 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/posts/binlog2sql</link>
+        <guid isPermaLink="true">http://localhost:4000/posts/binlog2sql</guid>
+      </item>
+    
+      <item>
+        <title>DB，mysql相关</title>
+        <description>&lt;ul id=&quot;markdown-toc&quot;&gt;
+  &lt;li&gt;&lt;a href=&quot;#分布式关系数据库drds&quot; id=&quot;markdown-toc-分布式关系数据库drds&quot;&gt;分布式关系数据库（DRDS）&lt;/a&gt;    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;#why&quot; id=&quot;markdown-toc-why&quot;&gt;why&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#how&quot; id=&quot;markdown-toc-how&quot;&gt;how&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#mysql&quot; id=&quot;markdown-toc-mysql&quot;&gt;mysql&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#小知识&quot; id=&quot;markdown-toc-小知识&quot;&gt;小知识&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;分布式关系数据库drds&quot;&gt;分布式关系数据库（DRDS）&lt;/h1&gt;
+
+&lt;h3 id=&quot;why&quot;&gt;why&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;任何问题都是太大或者太小的问题，我们这里面对的数据量太大的问题。
+
+1.用户请求量太大
+因为单服务器TPS，内存，IO都是有限的。
+解决方法：分散请求到多个服务器上； 其实用户请求和执行一个sql查询是本质是一样的，都是请求一个资源，只是用户请求还会经过网关，路由，http服务器等。
+
+2.单库太大
+单个数据库处理能力有限；单库所在服务器上磁盘空间不足；单库上操作的IO瓶颈 
+解决方法：切分成更多更小的库
+
+3.单表太大
+CRUD都成问题；索引膨胀，查询超时 
+解决方法：切分成多个数据集更小的表。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;how&quot;&gt;how&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;扩展性本质在于分而治之。
+1.垂直拆分
+垂直拆分是具备业务语义的，比如和交易紧相关的表组成一个交易库，和用户紧相关的表组成一个用户库，和商品紧相关的表组成一个商品库，分别放置在不同或相同的MySQL 实例上。
+2.水平拆分
+数据放置按照一定的规则进行计算和路由，从而达到分散到多个实例的目的。
+3.主从复制，读写分离
+在主实例的读请求较多、读压力比较大的时候，可以通过读写分离功能对读流量进行分流，减轻主实例的读压力。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;mysql&quot;&gt;mysql&lt;/h3&gt;
+
+&lt;div class=&quot;language-sql highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;-- 跳过 2 条取出 1 条数据 (即读取第 3 条)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;select&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;table&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;limit&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;-- 从第 1 条 (不包括) 开始取出 2 条数据 (即读取第 2, 3 条)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;select&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;table&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;limit&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;offset&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;cm&quot;&gt;/**
+使用navicat导出mysql表结构字段信息
+*/&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;COLUMN_NAME&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;列名&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;COLUMN_TYPE&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;数据类型&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;DATA_TYPE&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;字段类型&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;CHARACTER_MAXIMUM_LENGTH&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;长度&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;IS_NULLABLE&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;是否为空&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;COLUMN_DEFAULT&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;默认值&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;COLUMN_COMMENT&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;备注&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;FROM&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;INFORMATION_SCHEMA&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;COLUMNS&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;WHERE&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;table_schema&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'databaseName'&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;-- 数据库名&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;AND&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;table_name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'tableName'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;-- 表名&lt;/span&gt;
+
+
+&lt;span class=&quot;c1&quot;&gt;-- 执行外部 SQL 文件&lt;/span&gt;
+&lt;span class=&quot;err&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;to&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sql_file&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;sql&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;-- 查看 MySQL 版本&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;select&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;version&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;-- 查看当前连接数&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;SHOW&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;STATUS&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;LIKE&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'Threads_connected'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;-- 查看完整进程列表&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;SHOW&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;FULL&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PROCESSLIST&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;-- 查询非系统用户的进程&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;FROM&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;information_schema&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;processlist&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;WHERE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;user&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'system user'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;h3 id=&quot;小知识&quot;&gt;小知识&lt;/h3&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mysql not in 不包含null值
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+</description>
+        <pubDate>Thu, 12 Mar 2020 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/posts/DB</link>
+        <guid isPermaLink="true">http://localhost:4000/posts/DB</guid>
+      </item>
+    
+      <item>
+        <title>Markdown常用命令</title>
+        <description>&lt;ul id=&quot;markdown-toc&quot;&gt;
+  &lt;li&gt;&lt;a href=&quot;#标题&quot; id=&quot;markdown-toc-标题&quot;&gt;标题&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#区块引用&quot; id=&quot;markdown-toc-区块引用&quot;&gt;区块引用&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#列表&quot; id=&quot;markdown-toc-列表&quot;&gt;列表&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#代码块&quot; id=&quot;markdown-toc-代码块&quot;&gt;代码块&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#横线&quot; id=&quot;markdown-toc-横线&quot;&gt;横线&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#链接&quot; id=&quot;markdown-toc-链接&quot;&gt;链接&lt;/a&gt;    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;#内嵌链接&quot; id=&quot;markdown-toc-内嵌链接&quot;&gt;内嵌链接：&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#参考文献式链接&quot; id=&quot;markdown-toc-参考文献式链接&quot;&gt;参考文献式链接：&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#以链接地址作为链接文本&quot; id=&quot;markdown-toc-以链接地址作为链接文本&quot;&gt;以链接地址作为链接文本&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#字体&quot; id=&quot;markdown-toc-字体&quot;&gt;字体&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#图片&quot; id=&quot;markdown-toc-图片&quot;&gt;图片&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#转义字符&quot; id=&quot;markdown-toc-转义字符&quot;&gt;转义字符&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#段落前空格&quot; id=&quot;markdown-toc-段落前空格&quot;&gt;段落前空格&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Markdown 是一种轻量级标记语言，它允许人们使用易读易写的纯文本格式编写文档，文档后缀为 .md, .markdown。&lt;/p&gt;
+
+  &lt;p&gt;2004	约翰·格鲁伯（John Gruber）&lt;a href=&quot;https://zh.wikipedia.org/wiki/Markdown&quot;&gt;维基百科&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;标题&quot;&gt;标题&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# 一级标题
+##  二级标题
+####### 七级标题
+tips：最多六级标题
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;区块引用&quot;&gt;区块引用&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;gt; 这是引用,
+&amp;gt; 这是引用.
+&amp;gt;
+&amp;gt; 这是引用.
+tips：需要把引用放在一个框里，空行也要加&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;显示效果：&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;这是引用,
+这是引用.&lt;/p&gt;
+
+  &lt;p&gt;这是引用.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;列表&quot;&gt;列表&lt;/h2&gt;
+
+&lt;p&gt;列表项占一行，以*、+、-开头即可：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;*   1
+*   2
+*   3
++ 1
++ 2
++ 3
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;显示效果：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;1&lt;/li&gt;
+  &lt;li&gt;2&lt;/li&gt;
+  &lt;li&gt;3&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;有序列表使用数字并加上 &lt;strong&gt;.&lt;/strong&gt; 号来表示&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1.  1
+1.  2
+1.  3
+tips:想以哪个数字开始就第一个写“那个数字.”,如
+2. 1
+2. 2
+2. 3
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;显示效果：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;1&lt;/li&gt;
+  &lt;li&gt;2&lt;/li&gt;
+  &lt;li&gt;3&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;hr /&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;1&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;2&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;3&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;代码块&quot;&gt;代码块&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;```
+hello world
+```
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;显示效果：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;hello world.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;横线&quot;&gt;横线&lt;/h2&gt;
+
+&lt;p&gt;三个或更多个&lt;code class=&quot;highlighter-rouge&quot;&gt;*&lt;/code&gt;、&lt;code class=&quot;highlighter-rouge&quot;&gt;-&lt;/code&gt;（它们之间可以有空格）会产生横线：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;* * *
+---
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;显示效果：&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;链接&quot;&gt;链接&lt;/h2&gt;
+
+&lt;h3 id=&quot;内嵌链接&quot;&gt;内嵌链接：&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;I get 10 times more traffic from [Google](http://google.com/ &quot;Google&quot;)
+than from [Yahoo](http://search.yahoo.com/ &quot;Yahoo Search&quot;) or
+[MSN](http://search.msn.com/ &quot;MSN Search&quot;).
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;参考文献式链接&quot;&gt;参考文献式链接：&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;I get 10 times more traffic from [Google] [1] than from
+[Yahoo] [2] or [MSN] [3].
+
+  [1]: http://google.com/        &quot;Google&quot;
+  [2]: http://search.yahoo.com/  &quot;Yahoo Search&quot;
+  [3]: http://search.msn.com/    &quot;MSN Search&quot;
+
+I get 10 times more traffic from [Google][] than from
+[Yahoo][] or [MSN][].
+
+  [google]: http://google.com/        &quot;Google&quot;
+  [yahoo]:  http://search.yahoo.com/  &quot;Yahoo Search&quot;
+  [msn]:    http://search.msn.com/    &quot;MSN Search&quot;
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;显示效果：&lt;/p&gt;
+
+&lt;p&gt;I get 10 times more traffic from &lt;a href=&quot;http://google.com/&quot; title=&quot;Google&quot;&gt;Google&lt;/a&gt; than from &lt;a href=&quot;http://search.yahoo.com/&quot; title=&quot;Yahoo Search&quot;&gt;Yahoo&lt;/a&gt; or &lt;a href=&quot;http://search.msn.com/&quot; title=&quot;MSN Search&quot;&gt;MSN&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;以链接地址作为链接文本&quot;&gt;以链接地址作为链接文本&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;http://www.shengbin.me&amp;gt; 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;显示效果：&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://www.shengbin.me/&quot;&gt;http://www.shengbin.me&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;字体&quot;&gt;字体&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;*斜体文本*
+_斜体文本_
+**粗体文本**
+__粗体文本__
+***粗斜体文本***
+___粗斜体文本___
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;显示效果：&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;斜体文本&lt;/em&gt;
+&lt;em&gt;斜体文本&lt;/em&gt;
+&lt;strong&gt;粗体文本&lt;/strong&gt;
+&lt;strong&gt;粗体文本&lt;/strong&gt;
+&lt;strong&gt;&lt;em&gt;粗斜体文本&lt;/em&gt;&lt;/strong&gt;
+&lt;strong&gt;&lt;em&gt;粗斜体文本&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;图片&quot;&gt;图片&lt;/h2&gt;
+
+&lt;p&gt;图片与链接类似，只需在文本前面加上感叹号&lt;code class=&quot;highlighter-rouge&quot;&gt;!&lt;/code&gt;即可。图片位置和大小无法通过Markdown来指定。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;![alt 属性文本](图片地址)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;转义字符&quot;&gt;转义字符&lt;/h2&gt;
+
+&lt;p&gt;以下特殊字符需要用&lt;code class=&quot;highlighter-rouge&quot;&gt;\&lt;/code&gt;转义得到。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;\   反斜线
+`   反引号
+*   星号
+_   下划线
+{}  花括号
+[]  方括号
+()  小括号
+#   井字号
++   加号
+-   减号
+.   英文句点
+!   感叹号
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;段落前空格&quot;&gt;段落前空格&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;amp;emsp;&amp;amp;emsp;我是段落
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;显示效果：&lt;/p&gt;
+
+&lt;p&gt;  我是段落一&lt;/p&gt;
+
+&lt;p&gt;  我是段落二&lt;/p&gt;
+
+</description>
+        <pubDate>Wed, 30 Oct 2019 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/posts/markdown</link>
+        <guid isPermaLink="true">http://localhost:4000/posts/markdown</guid>
+      </item>
+    
+      <item>
+        <title>OnJava8笔记</title>
+        <description>&lt;ul id=&quot;markdown-toc&quot;&gt;
+  &lt;li&gt;&lt;a href=&quot;#第一章-对象的概念&quot; id=&quot;markdown-toc-第一章-对象的概念&quot;&gt;&lt;a href=&quot;https://lingcoder.github.io/OnJava8/#/book/01-What-is-an-Object?id=第一章-对象的概念&quot;&gt;第一章 对象的概念&lt;/a&gt;&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#第二章-安装java和本书用例&quot; id=&quot;markdown-toc-第二章-安装java和本书用例&quot;&gt;&lt;a href=&quot;https://lingcoder.github.io/OnJava8/#/book/02-Installing-Java-and-the-Book-Examples?id=第二章-安装java和本书用例&quot;&gt;第二章 安装Java和本书用例&lt;/a&gt;&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#第三章-万物皆对象&quot; id=&quot;markdown-toc-第三章-万物皆对象&quot;&gt;&lt;a href=&quot;https://lingcoder.github.io/OnJava8/#/book/03-Objects-Everywhere?id=第三章-万物皆对象&quot;&gt;第三章 万物皆对象&lt;/a&gt;&lt;/a&gt;    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;#基本类型的存储&quot; id=&quot;markdown-toc-基本类型的存储&quot;&gt;&lt;a href=&quot;https://lingcoder.github.io/OnJava8/#/book/03-Objects-Everywhere?id=基本类型的存储&quot;&gt;基本类型的存储&lt;/a&gt;&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#何为对象引用值传递还是引用传递&quot; id=&quot;markdown-toc-何为对象引用值传递还是引用传递&quot;&gt;何为对象引用，值传递？还是引用传递？&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#第四章-运算符&quot; id=&quot;markdown-toc-第四章-运算符&quot;&gt;&lt;a href=&quot;https://lingcoder.github.io/OnJava8/#/book/04-Operators?id=第四章-运算符&quot;&gt;第四章 运算符&lt;/a&gt;&lt;/a&gt;    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;#integer--问题&quot; id=&quot;markdown-toc-integer--问题&quot;&gt;Integer == 问题&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#第五章-控制流&quot; id=&quot;markdown-toc-第五章-控制流&quot;&gt;&lt;a href=&quot;https://lingcoder.github.io/OnJava8/#/book/05-Control-Flow?id=第五章-控制流&quot;&gt;第五章 控制流&lt;/a&gt;&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#第六章-初始化和清理&quot; id=&quot;markdown-toc-第六章-初始化和清理&quot;&gt;&lt;a href=&quot;https://lingcoder.github.io/OnJava8/#/book/06-Housekeeping?id=第六章-初始化和清理&quot;&gt;第六章 初始化和清理&lt;/a&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;《On Java 8》中文版，是事实上的《Java 编程思想》第5版。&lt;/p&gt;
+
+  &lt;p&gt;&lt;a href=&quot;https://lingcoder.github.io/OnJava8/#/sidebar&quot;&gt;on java 8&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h1 id=&quot;第一章-对象的概念&quot;&gt;&lt;a href=&quot;https://lingcoder.github.io/OnJava8/#/book/01-What-is-an-Object?id=第一章-对象的概念&quot;&gt;第一章 对象的概念&lt;/a&gt;&lt;/h1&gt;
+
+&lt;p&gt;万物皆对象&lt;/p&gt;
+
+&lt;p&gt;抽象、封装、继承、多态&lt;/p&gt;
+
+&lt;p&gt;面向过程程序包含数据定义和函数调用。要找到程序的意图，你必须要在脑中建立一个模型，弄清函数调用和更底层的概念。这些程序令人困扰，因为它们的表示更多地面向计算机而不是我们要解决的问题，这就是我们在设计程序时需要中间表示的原因。&lt;/p&gt;
+
+&lt;p&gt;面向对象编程（Object-Oriented Programming OOP）是一种编程思维方式和编码架构。&lt;/p&gt;
+
+&lt;p&gt;设计良好的java程序更容易被人阅读理解。&lt;/p&gt;
+
+&lt;h1 id=&quot;第二章-安装java和本书用例&quot;&gt;&lt;a href=&quot;https://lingcoder.github.io/OnJava8/#/book/02-Installing-Java-and-the-Book-Examples?id=第二章-安装java和本书用例&quot;&gt;第二章 安装Java和本书用例&lt;/a&gt;&lt;/h1&gt;
+
+&lt;h1 id=&quot;第三章-万物皆对象&quot;&gt;&lt;a href=&quot;https://lingcoder.github.io/OnJava8/#/book/03-Objects-Everywhere?id=第三章-万物皆对象&quot;&gt;第三章 万物皆对象&lt;/a&gt;&lt;/h1&gt;
+
+&lt;p&gt;java利用万物皆对象的思想和单一一致的语法方式来简化问题。虽然万物皆可为对象，但我们实际操纵的标识符实际上指示对象的“引用”。&lt;/p&gt;
+
+&lt;p&gt;new 关键字：创建一个新的对象实例。&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;strong&gt;寄存器&lt;/strong&gt;（Registers）最快的存储区域，位于 CPU 内部 [^2](https://lingcoder.github.io/OnJava8/#/大多数微处理器芯片都有额外的高速缓冲存储器，但这是按照传统存储器而不是寄存器。)。然而，寄存器的数量十分有限，所以寄存器根据需求进行分配。我们对其没有直接的控制权，也无法在自己的程序里找到寄存器存在的踪迹（另一方面，C/C++ 允许开发者向编译器建议寄存器的分配）。&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;栈内存&lt;/strong&gt;（Stack）存在于常规内存 RAM（随机访问存储器，Random Access Memory）区域中，可通过栈指针获得处理器的直接支持。栈指针下移分配内存，上移释放内存。这是一种仅次于寄存器的非常快速有效的分配存储方式。创建程序时，Java 系统必须知道栈内保存的所有项的生命周期。这种约束限制了程序的灵活性。因此，虽然在栈内存上存在一些 Java 数据（如对象引用），但 Java 对象本身的数据却是保存在堆内存的。基本类型存在栈内存。&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;堆内存&lt;/strong&gt;（Heap）这是一种通用的内存池（也在 RAM 区域），所有 Java 对象都存在于其中。与栈内存不同，编译器不需要知道对象必须在堆内存上停留多长时间。因此，用堆内存保存数据更具灵活性。创建一个对象时，只需用 &lt;code class=&quot;highlighter-rouge&quot;&gt;new&lt;/code&gt; 命令实例化对象即可，当执行代码时，会自动在堆中进行内存分配。这种灵活性是有代价的：分配和清理堆内存要比栈内存需要更多的时间（如果可以用 Java 在栈内存上创建对象，就像在 C++ 中那样的话）。随着时间的推移，Java 的堆内存分配机制现在已经非常快，因此这不是一个值得关心的问题了。&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;常量存储&lt;/strong&gt;（Constant storage）常量值通常直接放在程序代码中，因为它们永远不会改变。如需严格保护，可考虑将它们置于只读存储器 ROM （只读存储器，Read Only Memory）中 [^3](https://lingcoder.github.io/OnJava8/#/一个例子是字符串常量池。所有文字字符串和字符串值常量表达式都会自动放入特殊的静态存储中。)。&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;非 RAM 存储&lt;/strong&gt;（Non-RAM storage）数据完全存在于程序之外，在程序未运行以及脱离程序控制后依然存在。两个主要的例子：（1）序列化对象：对象被转换为字节流，通常被发送到另一台机器；（2）持久化对象：对象被放置在磁盘上，即使程序终止，数据依然存在。这些存储的方式都是将对象转存于另一个介质中，并在需要时恢复成常规的、基于 RAM 的对象。Java 为轻量级持久化提供了支持。而诸如 JDBC 和 Hibernate 这些类库为使用数据库存储和检索对象信息提供了更复杂的支持。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;基本类型的存储&quot;&gt;&lt;a href=&quot;https://lingcoder.github.io/OnJava8/#/book/03-Objects-Everywhere?id=基本类型的存储&quot;&gt;基本类型的存储&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;boolean、char、byte、short、int、long、float、double&lt;/p&gt;
+
+&lt;p&gt;Java 确定了每种基本类型的内存占用大小。 这些大小不会像其他一些语言那样随着机器环境的变化而变化。这种不变性也是 Java 更具可移植性的一个原因。 这个变量直接存储”值”，并置于栈内存中，因此更加高效。&lt;/p&gt;
+
+&lt;p&gt;我们在 Java 中并没有主动清理这些对象，那么它是如何避免 C++ 中出现的内存被填满从而阻塞程序的问题呢？答案是：Java 的垃圾收集器会检查所有 &lt;code class=&quot;highlighter-rouge&quot;&gt;new&lt;/code&gt; 出来的对象并判断哪些不再可达，继而释放那些被占用的内存，供其他新的对象使用。也就是说，我们不必担心内存回收的问题了。你只需简单创建对象即可。当其不再被需要时，能自行被垃圾收集器释放。垃圾回收机制有效防止了因程序员忘记释放内存而造成的“内存泄漏”问题。&lt;/p&gt;
+
+&lt;p&gt;面向对象编程可以总结为：向对象发送消息。&lt;/p&gt;
+
+&lt;p&gt;类是对象的外观及行为方式的描述。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;static&lt;/strong&gt; 关键字（从 C++ 采用）就符合上述两点要求。当我们说某个事物是静态时，就意味着该字段或方法不依赖于任何特定的对象实例 。 即使我们从未创建过该类的对象，也可以调用其静态方法或访问其静态字段。&lt;/p&gt;
+
+&lt;h2 id=&quot;何为对象引用值传递还是引用传递&quot;&gt;何为对象引用，值传递？还是引用传递？&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://juejin.im/post/5bce68226fb9a05ce46a0476&quot;&gt;java都是值传递&lt;/a&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;第四章-运算符&quot;&gt;&lt;a href=&quot;https://lingcoder.github.io/OnJava8/#/book/04-Operators?id=第四章-运算符&quot;&gt;第四章 运算符&lt;/a&gt;&lt;/h1&gt;
+
+&lt;p&gt;对于前递增和前递减（++a，–a），会先进行运算，再返回值；对于后递增和后递减（++a，–a），会先返回值，再进行运算。&lt;/p&gt;
+
+&lt;h2 id=&quot;integer--问题&quot;&gt;Integer == 问题&lt;/h2&gt;
+
+&lt;p&gt;Integer 内部维护着一个 IntegerCache 的缓存，默认缓存范围是 [-128, 127]，所以 [-128, 127] 之间的值用 &lt;code class=&quot;highlighter-rouge&quot;&gt;==&lt;/code&gt; 和 &lt;code class=&quot;highlighter-rouge&quot;&gt;!=&lt;/code&gt; 比较也能能到正确的结果，但是不推荐用关系运算符比较，具体见 JDK 中的 Integer 类源码）。&lt;/p&gt;
+
+&lt;h1 id=&quot;第五章-控制流&quot;&gt;&lt;a href=&quot;https://lingcoder.github.io/OnJava8/#/book/05-Control-Flow?id=第五章-控制流&quot;&gt;第五章 控制流&lt;/a&gt;&lt;/h1&gt;
+
+&lt;h1 id=&quot;第六章-初始化和清理&quot;&gt;&lt;a href=&quot;https://lingcoder.github.io/OnJava8/#/book/06-Housekeeping?id=第六章-初始化和清理&quot;&gt;第六章 初始化和清理&lt;/a&gt;&lt;/h1&gt;
+
+</description>
+        <pubDate>Tue, 01 Jan 2019 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/posts/OnJava8</link>
+        <guid isPermaLink="true">http://localhost:4000/posts/OnJava8</guid>
+      </item>
+    
+  </channel>
+</rss>

@@ -1,34 +1,41 @@
-{% assign is_post = page.date %}
-<!doctype>
-<html lang="en">
-  <head>
+{% assign is_post = false %}
+{% if page.layout == 'post' or page.date or page.path contains 'about' %}
+  {% assign is_post = true %}
+{% endif %}
+<head>
+    <meta name="description" content="{{ site.description }}">
+    <meta name="keywords" content="{{ site.keywords }}">
+    <meta name="author" content="{{ site.author }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content='{{ page.title }} - {{ site.title }}' name='title' />
     <meta content='{{ page.title }} - {{ site.title }}' name='og:title' />
     <title>{{ page.title }} - {{ site.title }}</title>
     {% include head.html %}
-  </head>
-  <body class="lh-copy dark-gray pa0 f6 sans-serif bg-super-white">
-    <header class="tc mt4">
-      <a href="{{ site.url }}">
-        <img src="{{ site.url }}/images/logo.png" alt="Home" width="53" height="59">
-      </a>
-      <p>{{ site.title }}</p>
+</head>
+<body class="lh-copy dark-gray pa0 f6 sans-serif animate-fade-in {% if is_post %}post-page{% endif %}">
+    <header class="tl pv5 hero-gradient">
+      <div id="canvas-container"></div>
+      <div class="hero-content mw8 center ph3-ns ph2">
+        <a href="{{ site.url }}" class="floating dib">
+          <img src="{{ '/images/logo.png' | relative_url }}" alt="Home" width="80" height="90" class="br-100 pa2 bg-white-20 shadow-2">
+        </a>
+        <h1 class="f2 fw6 mb0 mt3 white">{{ site.title }}</h1>
+        <p class="f5 white-80 mt2">{{ site.description }}</p>
+      </div>
     </header>
-    <div class="mw7 bg-white mt4 mb3 center br2-ns bt bb ba-ns b--light-gray">
-      <nav class="bb b--light-gray pv4 tc" aria-label="Main">
-        {% for link in site.links %}
-          <a class="link blue hover-mid-gray mh2 pv1"
-             href="{% unless link.external %}{{ site.url }}{% endunless %}{{ link.url }}">
-             {{ link.name }}
-           </a>
-        {% endfor %}
-      </nav>
+    
+    <div class="mw8 center ph3-ns ph2 mt4 mb5">
+      <div class="glass br3 overflow-hidden">
+        <nav class="bb b--black-05 pv3 tc ink-nav" aria-label="Main">
+          <a class="link-underline dib mh3 pv1 fw5 ink-blue" href="{{ '/' | relative_url }}">文章</a>
+          <a class="link-underline dib mh3 pv1 fw5 ink-blue" href="{{ '/about' | relative_url }}">关于我</a>
+        </nav>
 
-      <main class="tl f6 relative pa4 pa5-ns overflow-hidden">
+        <main class="tl f5 relative pa4 pa5-ns {% if is_post %}ink-content{% endif %}">
         {% if page.title %}
           <div class="mb4">
             {% if page.date %}<div class="fw600 light-silver mt1">{{ page.date | date_to_string }}</div>{% endif %}
-            <h1 class="ttu f3 mt0 lh-title cb mb2">
+            <h1 class="ttu f2 mt0 lh-title cb mb2 blue">
               {% if is_post %}
               {% endif %}
               {{ page.title }}
@@ -47,8 +54,164 @@
       </main>
       {% if is_post %}{% include pagination.html %}{% endif %}
     </div>
-    <footer class="mw7 center tc pt3 pb4 silver">
-      just be yourself and one day you will find someone who loves you for everything you are.
-    </footer>
-  </body>
+      <footer class="pv4 tc silver f6">
+        <p class="mb2">just be yourself and one day you will find someone who loves you for everything you are.</p>
+        <p>© {{ "now" | date: "%Y" }} {{ site.title }}. Built with Jekyll & ❤️</p>
+      </footer>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+      (function() {
+        const container = document.getElementById('canvas-container');
+        if (!container) return;
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, container.offsetWidth / container.offsetHeight, 0.1, 2000);
+        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        renderer.setSize(container.offsetWidth, container.offsetHeight);
+        container.appendChild(renderer.domElement);
+
+        // Starfield Creation
+        function createStarfield(count, size, color, spread) {
+          const geometry = new THREE.BufferGeometry();
+          const vertices = [];
+          for (let i = 0; i < count; i++) {
+            vertices.push(THREE.MathUtils.randFloatSpread(spread));
+            vertices.push(THREE.MathUtils.randFloatSpread(spread));
+            vertices.push(THREE.MathUtils.randFloatSpread(spread));
+          }
+          geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+          const material = new THREE.PointsMaterial({ 
+            color: color, 
+            size: size, 
+            transparent: true, 
+            opacity: Math.random() * 0.5 + 0.5,
+            blending: THREE.AdditiveBlending 
+          });
+          return new THREE.Points(geometry, material);
+        }
+
+        const stars1 = createStarfield(1500, 2, 0xffffff, 2000);
+        const stars2 = createStarfield(1000, 1.5, 0x4488ff, 2000);
+        const stars3 = createStarfield(500, 3, 0xffaa44, 2000);
+        
+        scene.add(stars1);
+        scene.add(stars2);
+        scene.add(stars3);
+
+        // Earth & Moon
+        const textureLoader = new THREE.TextureLoader();
+        
+        // Earth
+        const earthGeometry = new THREE.SphereGeometry(200, 64, 64);
+        const earthMaterial = new THREE.MeshPhongMaterial({
+          map: textureLoader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_atmos_2048.jpg'),
+          specularMap: textureLoader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_specular_2048.jpg'),
+          normalMap: textureLoader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_normal_2048.jpg'),
+          normalScale: new THREE.Vector2(0.85, 0.85),
+          shininess: 10
+        });
+        const earth = new THREE.Mesh(earthGeometry, earthMaterial);
+        earth.position.set(400, 0, 0);
+        scene.add(earth);
+
+        // Clouds
+        const cloudGeometry = new THREE.SphereGeometry(205, 64, 64);
+        const cloudMaterial = new THREE.MeshLambertMaterial({
+          map: textureLoader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_clouds_1024.png'),
+          transparent: true,
+          opacity: 0.4
+        });
+        const clouds = new THREE.Mesh(cloudGeometry, cloudMaterial);
+        earth.add(clouds);
+
+        // Moon
+        const moonGeometry = new THREE.SphereGeometry(50, 32, 32);
+        const moonMaterial = new THREE.MeshPhongMaterial({
+          map: textureLoader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/moon_1024.jpg'),
+          shininess: 0
+        });
+        const moon = new THREE.Mesh(moonGeometry, moonMaterial);
+        scene.add(moon);
+
+        // Lighting
+        const ambientLight = new THREE.AmbientLight(0x404040, 1.5);
+        scene.add(ambientLight);
+
+        const sunLight = new THREE.DirectionalLight(0xffffff, 2);
+        sunLight.position.set(500, 300, 500);
+        scene.add(sunLight);
+
+        camera.position.z = 1000;
+
+        let moonAngle = 0;
+
+        function animate() {
+          requestAnimationFrame(animate);
+          
+          stars1.rotation.y += 0.0001;
+          stars2.rotation.y -= 0.00015;
+          
+          // Earth Animation
+          earth.rotation.y += 0.002;
+          clouds.rotation.y += 0.001;
+
+          // Moon Animation
+          moonAngle += 0.005;
+          moon.position.x = earth.position.x + Math.cos(moonAngle) * 500;
+          moon.position.z = earth.position.z + Math.sin(moonAngle) * 500;
+          moon.rotation.y += 0.005;
+          
+          renderer.render(scene, camera);
+        }
+
+        window.addEventListener('resize', () => {
+          camera.aspect = container.offsetWidth / container.offsetHeight;
+          camera.updateProjectionMatrix();
+          renderer.setSize(container.offsetWidth, container.offsetHeight);
+        });
+
+        animate();
+      })();
+
+      // Mouse Trail Effect
+      (function() {
+        let lastMouseX = 0;
+        let lastMouseY = 0;
+        const starColors = ['#fff', '#667eea', '#764ba2', '#a0aec0'];
+
+        document.addEventListener('mousemove', (e) => {
+          const distance = Math.sqrt(Math.pow(e.clientX - lastMouseX, 2) + Math.pow(e.clientY - lastMouseY, 2));
+          
+          if (distance > 10) {
+            createStar(e.clientX, e.clientY);
+            lastMouseX = e.clientX;
+            lastMouseY = e.clientY;
+          }
+        });
+
+        function createStar(x, y) {
+          const star = document.createElement('div');
+          star.className = 'star-particle';
+          
+          const size = Math.random() * 6 + 2;
+          const color = starColors[Math.floor(Math.random() * starColors.length)];
+          
+          star.style.width = `${size}px`;
+          star.style.height = `${size}px`;
+          star.style.left = `${x}px`;
+          star.style.top = `${y}px`;
+          star.style.background = color;
+          star.style.boxShadow = `0 0 ${size * 2}px ${size / 2}px ${color}`;
+          
+          document.body.appendChild(star);
+          
+          setTimeout(() => {
+            star.remove();
+          }, 1000);
+        }
+      })();
+    </script>
+</body>
 </html>

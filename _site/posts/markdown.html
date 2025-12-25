@@ -1,0 +1,482 @@
+
+
+<head>
+    <meta name="description" content="just be yourself.">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content='Markdown常用命令 - 勇敢做自己' name='title' />
+    <meta content='Markdown常用命令 - 勇敢做自己' name='og:title' />
+    <title>Markdown常用命令 - 勇敢做自己</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Serif+SC:wght@400;700&family=Zhi+Mang+Xing&display=swap" rel="stylesheet">
+<link href='/images/favicon.png' rel='shortcut icon'>
+<link href='/stylesheets/style.css' rel='stylesheet' type='text/css' />
+<link href='/stylesheets/syntax.css' rel='stylesheet' type='text/css' />
+
+<meta content='width=device-width, initial-scale=1.0, user-scalable=no' name='viewport'>
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+  <meta content='http://localhost:4000/posts/markdown' property='og:url' />
+  <meta content="  标题  区块引用  列表  代码块  横线  链接          内嵌链接：      参考文献式链接：      以链接地址作为链接文本        字体  图片  转义字符  段落前空格  Markdown 是一种轻量级..." property='og:description' />
+  <meta content="article" property="og:type" />
+
+<!-- - -->
+
+
+
+
+
+</head>
+<body class="lh-copy dark-gray pa0 f6 sans-serif animate-fade-in post-page">
+    <header class="tl pv5 hero-gradient">
+      <div id="canvas-container"></div>
+      <div class="hero-content mw8 center ph3-ns ph2">
+        <a href="http://localhost:4000" class="floating dib">
+          <img src="/images/logo.png" alt="Home" width="80" height="90" class="br-100 pa2 bg-white-20 shadow-2">
+        </a>
+        <h1 class="f2 fw6 mb0 mt3 white">勇敢做自己</h1>
+        <p class="f5 white-80 mt2">just be yourself.</p>
+      </div>
+    </header>
+    
+    <div class="mw8 center ph3-ns ph2 mt4 mb5">
+      <div class="glass br3 overflow-hidden">
+        <nav class="bb b--black-05 pv3 tc ink-nav" aria-label="Main">
+          <a class="link-underline dib mh3 pv1 fw5 ink-blue" href="/">文章</a>
+          <a class="link-underline dib mh3 pv1 fw5 ink-blue" href="/about">关于我</a>
+        </nav>
+
+        <main class="tl f5 relative pa4 pa5-ns ink-content">
+        
+          <div class="mb4">
+            <div class="fw600 light-silver mt1">30 Oct 2019</div>
+            <h1 class="ttu f2 mt0 lh-title cb mb2 blue">
+              
+              Markdown常用命令
+            </h1>
+            
+          </div>
+        
+        <div class="markdown-body">
+          <ul id="markdown-toc">
+  <li><a href="#标题" id="markdown-toc-标题">标题</a></li>
+  <li><a href="#区块引用" id="markdown-toc-区块引用">区块引用</a></li>
+  <li><a href="#列表" id="markdown-toc-列表">列表</a></li>
+  <li><a href="#代码块" id="markdown-toc-代码块">代码块</a></li>
+  <li><a href="#横线" id="markdown-toc-横线">横线</a></li>
+  <li><a href="#链接" id="markdown-toc-链接">链接</a>    <ul>
+      <li><a href="#内嵌链接" id="markdown-toc-内嵌链接">内嵌链接：</a></li>
+      <li><a href="#参考文献式链接" id="markdown-toc-参考文献式链接">参考文献式链接：</a></li>
+      <li><a href="#以链接地址作为链接文本" id="markdown-toc-以链接地址作为链接文本">以链接地址作为链接文本</a></li>
+    </ul>
+  </li>
+  <li><a href="#字体" id="markdown-toc-字体">字体</a></li>
+  <li><a href="#图片" id="markdown-toc-图片">图片</a></li>
+  <li><a href="#转义字符" id="markdown-toc-转义字符">转义字符</a></li>
+  <li><a href="#段落前空格" id="markdown-toc-段落前空格">段落前空格</a></li>
+</ul>
+
+<blockquote>
+  <p>Markdown 是一种轻量级标记语言，它允许人们使用易读易写的纯文本格式编写文档，文档后缀为 .md, .markdown。</p>
+
+  <p>2004	约翰·格鲁伯（John Gruber）<a href="https://zh.wikipedia.org/wiki/Markdown">维基百科</a></p>
+</blockquote>
+
+<h2 id="标题">标题</h2>
+
+<div class="highlighter-rouge"><pre class="highlight"><code># 一级标题
+##  二级标题
+####### 七级标题
+tips：最多六级标题
+</code></pre>
+</div>
+
+<h2 id="区块引用">区块引用</h2>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&gt; 这是引用,
+&gt; 这是引用.
+&gt;
+&gt; 这是引用.
+tips：需要把引用放在一个框里，空行也要加&gt;
+</code></pre>
+</div>
+
+<p>显示效果：</p>
+
+<blockquote>
+  <p>这是引用,
+这是引用.</p>
+
+  <p>这是引用.</p>
+</blockquote>
+
+<h2 id="列表">列表</h2>
+
+<p>列表项占一行，以*、+、-开头即可：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>*   1
+*   2
+*   3
++ 1
++ 2
++ 3
+</code></pre>
+</div>
+
+<p>显示效果：</p>
+
+<ul>
+  <li>1</li>
+  <li>2</li>
+  <li>3</li>
+</ul>
+
+<p>有序列表使用数字并加上 <strong>.</strong> 号来表示</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>1.  1
+1.  2
+1.  3
+tips:想以哪个数字开始就第一个写“那个数字.”,如
+2. 1
+2. 2
+2. 3
+</code></pre>
+</div>
+
+<p>显示效果：</p>
+
+<ol>
+  <li>1</li>
+  <li>2</li>
+  <li>3</li>
+</ol>
+
+<hr />
+
+<ol>
+  <li>
+    <p>1</p>
+  </li>
+  <li>
+    <p>2</p>
+  </li>
+  <li>
+    <p>3</p>
+  </li>
+</ol>
+
+<h2 id="代码块">代码块</h2>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>```
+hello world
+```
+</code></pre>
+</div>
+
+<p>显示效果：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>hello world.
+</code></pre>
+</div>
+
+<h2 id="横线">横线</h2>
+
+<p>三个或更多个<code class="highlighter-rouge">*</code>、<code class="highlighter-rouge">-</code>（它们之间可以有空格）会产生横线：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>* * *
+---
+</code></pre>
+</div>
+
+<p>显示效果：</p>
+
+<hr />
+
+<hr />
+
+<h2 id="链接">链接</h2>
+
+<h3 id="内嵌链接">内嵌链接：</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>I get 10 times more traffic from [Google](http://google.com/ "Google")
+than from [Yahoo](http://search.yahoo.com/ "Yahoo Search") or
+[MSN](http://search.msn.com/ "MSN Search").
+</code></pre>
+</div>
+
+<h3 id="参考文献式链接">参考文献式链接：</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>I get 10 times more traffic from [Google] [1] than from
+[Yahoo] [2] or [MSN] [3].
+
+  [1]: http://google.com/        "Google"
+  [2]: http://search.yahoo.com/  "Yahoo Search"
+  [3]: http://search.msn.com/    "MSN Search"
+
+I get 10 times more traffic from [Google][] than from
+[Yahoo][] or [MSN][].
+
+  [google]: http://google.com/        "Google"
+  [yahoo]:  http://search.yahoo.com/  "Yahoo Search"
+  [msn]:    http://search.msn.com/    "MSN Search"
+
+</code></pre>
+</div>
+
+<p>显示效果：</p>
+
+<p>I get 10 times more traffic from <a href="http://google.com/" title="Google">Google</a> than from <a href="http://search.yahoo.com/" title="Yahoo Search">Yahoo</a> or <a href="http://search.msn.com/" title="MSN Search">MSN</a>.</p>
+
+<h3 id="以链接地址作为链接文本">以链接地址作为链接文本</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&lt;http://www.shengbin.me&gt; 
+</code></pre>
+</div>
+
+<p>显示效果：</p>
+
+<p><a href="http://www.shengbin.me/">http://www.shengbin.me</a></p>
+
+<h2 id="字体">字体</h2>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>*斜体文本*
+_斜体文本_
+**粗体文本**
+__粗体文本__
+***粗斜体文本***
+___粗斜体文本___
+</code></pre>
+</div>
+
+<p>显示效果：</p>
+
+<p><em>斜体文本</em>
+<em>斜体文本</em>
+<strong>粗体文本</strong>
+<strong>粗体文本</strong>
+<strong><em>粗斜体文本</em></strong>
+<strong><em>粗斜体文本</em></strong></p>
+
+<h2 id="图片">图片</h2>
+
+<p>图片与链接类似，只需在文本前面加上感叹号<code class="highlighter-rouge">!</code>即可。图片位置和大小无法通过Markdown来指定。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>![alt 属性文本](图片地址)
+</code></pre>
+</div>
+
+<h2 id="转义字符">转义字符</h2>
+
+<p>以下特殊字符需要用<code class="highlighter-rouge">\</code>转义得到。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>\   反斜线
+`   反引号
+*   星号
+_   下划线
+{}  花括号
+[]  方括号
+()  小括号
+#   井字号
++   加号
+-   减号
+.   英文句点
+!   感叹号
+</code></pre>
+</div>
+
+<h2 id="段落前空格">段落前空格</h2>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&amp;emsp;&amp;emsp;我是段落
+</code></pre>
+</div>
+
+<p>显示效果：</p>
+
+<p>  我是段落一</p>
+
+<p>  我是段落二</p>
+
+
+
+        </div>
+        <div class="mt5 mb4 bt b--black-05 pt4">
+  <p class="f6 gray italic tc">Thanks for reading! — muan</p>
+</div>
+
+      </main>
+      <section class="bt b--black-05 pv4 flex justify-between">
+  
+    <a href="http://localhost:4000/posts/OnJava8" class="link blue hover-mid-gray fw6">
+      ← OnJava8笔记
+    </a>
+  
+  
+    <a href="http://localhost:4000/posts/DB" class="link blue hover-mid-gray fw6">
+      DB，mysql相关 →
+    </a>
+  
+</section>
+    </div>
+      <footer class="pv4 tc silver f6">
+        <p class="mb2">just be yourself and one day you will find someone who loves you for everything you are.</p>
+        <p>© 2025 勇敢做自己. Built with Jekyll & ❤️</p>
+      </footer>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+      (function() {
+        const container = document.getElementById('canvas-container');
+        if (!container) return;
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, container.offsetWidth / container.offsetHeight, 0.1, 2000);
+        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        renderer.setSize(container.offsetWidth, container.offsetHeight);
+        container.appendChild(renderer.domElement);
+
+        // Starfield Creation
+        function createStarfield(count, size, color, spread) {
+          const geometry = new THREE.BufferGeometry();
+          const vertices = [];
+          for (let i = 0; i < count; i++) {
+            vertices.push(THREE.MathUtils.randFloatSpread(spread));
+            vertices.push(THREE.MathUtils.randFloatSpread(spread));
+            vertices.push(THREE.MathUtils.randFloatSpread(spread));
+          }
+          geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+          const material = new THREE.PointsMaterial({ 
+            color: color, 
+            size: size, 
+            transparent: true, 
+            opacity: Math.random() * 0.5 + 0.5,
+            blending: THREE.AdditiveBlending 
+          });
+          return new THREE.Points(geometry, material);
+        }
+
+        const stars1 = createStarfield(1500, 2, 0xffffff, 2000);
+        const stars2 = createStarfield(1000, 1.5, 0x4488ff, 2000);
+        const stars3 = createStarfield(500, 3, 0xffaa44, 2000);
+        
+        scene.add(stars1);
+        scene.add(stars2);
+        scene.add(stars3);
+
+        // Earth & Moon
+        const textureLoader = new THREE.TextureLoader();
+        
+        // Earth
+        const earthGeometry = new THREE.SphereGeometry(200, 64, 64);
+        const earthMaterial = new THREE.MeshPhongMaterial({
+          map: textureLoader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_atmos_2048.jpg'),
+          specularMap: textureLoader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_specular_2048.jpg'),
+          normalMap: textureLoader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_normal_2048.jpg'),
+          normalScale: new THREE.Vector2(0.85, 0.85),
+          shininess: 10
+        });
+        const earth = new THREE.Mesh(earthGeometry, earthMaterial);
+        earth.position.set(400, 0, 0);
+        scene.add(earth);
+
+        // Clouds
+        const cloudGeometry = new THREE.SphereGeometry(205, 64, 64);
+        const cloudMaterial = new THREE.MeshLambertMaterial({
+          map: textureLoader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_clouds_1024.png'),
+          transparent: true,
+          opacity: 0.4
+        });
+        const clouds = new THREE.Mesh(cloudGeometry, cloudMaterial);
+        earth.add(clouds);
+
+        // Moon
+        const moonGeometry = new THREE.SphereGeometry(50, 32, 32);
+        const moonMaterial = new THREE.MeshPhongMaterial({
+          map: textureLoader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/moon_1024.jpg'),
+          shininess: 0
+        });
+        const moon = new THREE.Mesh(moonGeometry, moonMaterial);
+        scene.add(moon);
+
+        // Lighting
+        const ambientLight = new THREE.AmbientLight(0x404040, 1.5);
+        scene.add(ambientLight);
+
+        const sunLight = new THREE.DirectionalLight(0xffffff, 2);
+        sunLight.position.set(500, 300, 500);
+        scene.add(sunLight);
+
+        camera.position.z = 1000;
+
+        let moonAngle = 0;
+
+        function animate() {
+          requestAnimationFrame(animate);
+          
+          stars1.rotation.y += 0.0001;
+          stars2.rotation.y -= 0.00015;
+          
+          // Earth Animation
+          earth.rotation.y += 0.002;
+          clouds.rotation.y += 0.001;
+
+          // Moon Animation
+          moonAngle += 0.005;
+          moon.position.x = earth.position.x + Math.cos(moonAngle) * 500;
+          moon.position.z = earth.position.z + Math.sin(moonAngle) * 500;
+          moon.rotation.y += 0.005;
+          
+          renderer.render(scene, camera);
+        }
+
+        window.addEventListener('resize', () => {
+          camera.aspect = container.offsetWidth / container.offsetHeight;
+          camera.updateProjectionMatrix();
+          renderer.setSize(container.offsetWidth, container.offsetHeight);
+        });
+
+        animate();
+      })();
+
+      // Mouse Trail Effect
+      (function() {
+        let lastMouseX = 0;
+        let lastMouseY = 0;
+        const starColors = ['#fff', '#667eea', '#764ba2', '#a0aec0'];
+
+        document.addEventListener('mousemove', (e) => {
+          const distance = Math.sqrt(Math.pow(e.clientX - lastMouseX, 2) + Math.pow(e.clientY - lastMouseY, 2));
+          
+          if (distance > 10) {
+            createStar(e.clientX, e.clientY);
+            lastMouseX = e.clientX;
+            lastMouseY = e.clientY;
+          }
+        });
+
+        function createStar(x, y) {
+          const star = document.createElement('div');
+          star.className = 'star-particle';
+          
+          const size = Math.random() * 6 + 2;
+          const color = starColors[Math.floor(Math.random() * starColors.length)];
+          
+          star.style.width = `${size}px`;
+          star.style.height = `${size}px`;
+          star.style.left = `${x}px`;
+          star.style.top = `${y}px`;
+          star.style.background = color;
+          star.style.boxShadow = `0 0 ${size * 2}px ${size / 2}px ${color}`;
+          
+          document.body.appendChild(star);
+          
+          setTimeout(() => {
+            star.remove();
+          }, 1000);
+        }
+      })();
+    </script>
+</body>
+</html>

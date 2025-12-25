@@ -1,0 +1,324 @@
+
+
+<head>
+    <meta name="description" content="just be yourself.">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content='OnJava8笔记 - 勇敢做自己' name='title' />
+    <meta content='OnJava8笔记 - 勇敢做自己' name='og:title' />
+    <title>OnJava8笔记 - 勇敢做自己</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Serif+SC:wght@400;700&family=Zhi+Mang+Xing&display=swap" rel="stylesheet">
+<link href='/images/favicon.png' rel='shortcut icon'>
+<link href='/stylesheets/style.css' rel='stylesheet' type='text/css' />
+<link href='/stylesheets/syntax.css' rel='stylesheet' type='text/css' />
+
+<meta content='width=device-width, initial-scale=1.0, user-scalable=no' name='viewport'>
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+  <meta content='http://localhost:4000/posts/OnJava8' property='og:url' />
+  <meta content="  第一章 对象的概念  第二章 安装Java和本书用例  第三章 万物皆对象          基本类型的存储      何为对象引用，值传递？还是引用传递？        第四章 运算符          Integer == 问..." property='og:description' />
+  <meta content="article" property="og:type" />
+
+<!-- - -->
+
+
+
+
+
+</head>
+<body class="lh-copy dark-gray pa0 f6 sans-serif animate-fade-in post-page">
+    <header class="tl pv5 hero-gradient">
+      <div id="canvas-container"></div>
+      <div class="hero-content mw8 center ph3-ns ph2">
+        <a href="http://localhost:4000" class="floating dib">
+          <img src="/images/logo.png" alt="Home" width="80" height="90" class="br-100 pa2 bg-white-20 shadow-2">
+        </a>
+        <h1 class="f2 fw6 mb0 mt3 white">勇敢做自己</h1>
+        <p class="f5 white-80 mt2">just be yourself.</p>
+      </div>
+    </header>
+    
+    <div class="mw8 center ph3-ns ph2 mt4 mb5">
+      <div class="glass br3 overflow-hidden">
+        <nav class="bb b--black-05 pv3 tc ink-nav" aria-label="Main">
+          <a class="link-underline dib mh3 pv1 fw5 ink-blue" href="/">文章</a>
+          <a class="link-underline dib mh3 pv1 fw5 ink-blue" href="/about">关于我</a>
+        </nav>
+
+        <main class="tl f5 relative pa4 pa5-ns ink-content">
+        
+          <div class="mb4">
+            <div class="fw600 light-silver mt1">01 Jan 2019</div>
+            <h1 class="ttu f2 mt0 lh-title cb mb2 blue">
+              
+              OnJava8笔记
+            </h1>
+            
+          </div>
+        
+        <div class="markdown-body">
+          <ul id="markdown-toc">
+  <li><a href="#第一章-对象的概念" id="markdown-toc-第一章-对象的概念"><a href="https://lingcoder.github.io/OnJava8/#/book/01-What-is-an-Object?id=第一章-对象的概念">第一章 对象的概念</a></a></li>
+  <li><a href="#第二章-安装java和本书用例" id="markdown-toc-第二章-安装java和本书用例"><a href="https://lingcoder.github.io/OnJava8/#/book/02-Installing-Java-and-the-Book-Examples?id=第二章-安装java和本书用例">第二章 安装Java和本书用例</a></a></li>
+  <li><a href="#第三章-万物皆对象" id="markdown-toc-第三章-万物皆对象"><a href="https://lingcoder.github.io/OnJava8/#/book/03-Objects-Everywhere?id=第三章-万物皆对象">第三章 万物皆对象</a></a>    <ul>
+      <li><a href="#基本类型的存储" id="markdown-toc-基本类型的存储"><a href="https://lingcoder.github.io/OnJava8/#/book/03-Objects-Everywhere?id=基本类型的存储">基本类型的存储</a></a></li>
+      <li><a href="#何为对象引用值传递还是引用传递" id="markdown-toc-何为对象引用值传递还是引用传递">何为对象引用，值传递？还是引用传递？</a></li>
+    </ul>
+  </li>
+  <li><a href="#第四章-运算符" id="markdown-toc-第四章-运算符"><a href="https://lingcoder.github.io/OnJava8/#/book/04-Operators?id=第四章-运算符">第四章 运算符</a></a>    <ul>
+      <li><a href="#integer--问题" id="markdown-toc-integer--问题">Integer == 问题</a></li>
+    </ul>
+  </li>
+  <li><a href="#第五章-控制流" id="markdown-toc-第五章-控制流"><a href="https://lingcoder.github.io/OnJava8/#/book/05-Control-Flow?id=第五章-控制流">第五章 控制流</a></a></li>
+  <li><a href="#第六章-初始化和清理" id="markdown-toc-第六章-初始化和清理"><a href="https://lingcoder.github.io/OnJava8/#/book/06-Housekeeping?id=第六章-初始化和清理">第六章 初始化和清理</a></a></li>
+</ul>
+
+<blockquote>
+  <p>《On Java 8》中文版，是事实上的《Java 编程思想》第5版。</p>
+
+  <p><a href="https://lingcoder.github.io/OnJava8/#/sidebar">on java 8</a></p>
+</blockquote>
+
+<h1 id="第一章-对象的概念"><a href="https://lingcoder.github.io/OnJava8/#/book/01-What-is-an-Object?id=第一章-对象的概念">第一章 对象的概念</a></h1>
+
+<p>万物皆对象</p>
+
+<p>抽象、封装、继承、多态</p>
+
+<p>面向过程程序包含数据定义和函数调用。要找到程序的意图，你必须要在脑中建立一个模型，弄清函数调用和更底层的概念。这些程序令人困扰，因为它们的表示更多地面向计算机而不是我们要解决的问题，这就是我们在设计程序时需要中间表示的原因。</p>
+
+<p>面向对象编程（Object-Oriented Programming OOP）是一种编程思维方式和编码架构。</p>
+
+<p>设计良好的java程序更容易被人阅读理解。</p>
+
+<h1 id="第二章-安装java和本书用例"><a href="https://lingcoder.github.io/OnJava8/#/book/02-Installing-Java-and-the-Book-Examples?id=第二章-安装java和本书用例">第二章 安装Java和本书用例</a></h1>
+
+<h1 id="第三章-万物皆对象"><a href="https://lingcoder.github.io/OnJava8/#/book/03-Objects-Everywhere?id=第三章-万物皆对象">第三章 万物皆对象</a></h1>
+
+<p>java利用万物皆对象的思想和单一一致的语法方式来简化问题。虽然万物皆可为对象，但我们实际操纵的标识符实际上指示对象的“引用”。</p>
+
+<p>new 关键字：创建一个新的对象实例。</p>
+
+<ol>
+  <li><strong>寄存器</strong>（Registers）最快的存储区域，位于 CPU 内部 [^2](https://lingcoder.github.io/OnJava8/#/大多数微处理器芯片都有额外的高速缓冲存储器，但这是按照传统存储器而不是寄存器。)。然而，寄存器的数量十分有限，所以寄存器根据需求进行分配。我们对其没有直接的控制权，也无法在自己的程序里找到寄存器存在的踪迹（另一方面，C/C++ 允许开发者向编译器建议寄存器的分配）。</li>
+  <li><strong>栈内存</strong>（Stack）存在于常规内存 RAM（随机访问存储器，Random Access Memory）区域中，可通过栈指针获得处理器的直接支持。栈指针下移分配内存，上移释放内存。这是一种仅次于寄存器的非常快速有效的分配存储方式。创建程序时，Java 系统必须知道栈内保存的所有项的生命周期。这种约束限制了程序的灵活性。因此，虽然在栈内存上存在一些 Java 数据（如对象引用），但 Java 对象本身的数据却是保存在堆内存的。基本类型存在栈内存。</li>
+  <li><strong>堆内存</strong>（Heap）这是一种通用的内存池（也在 RAM 区域），所有 Java 对象都存在于其中。与栈内存不同，编译器不需要知道对象必须在堆内存上停留多长时间。因此，用堆内存保存数据更具灵活性。创建一个对象时，只需用 <code class="highlighter-rouge">new</code> 命令实例化对象即可，当执行代码时，会自动在堆中进行内存分配。这种灵活性是有代价的：分配和清理堆内存要比栈内存需要更多的时间（如果可以用 Java 在栈内存上创建对象，就像在 C++ 中那样的话）。随着时间的推移，Java 的堆内存分配机制现在已经非常快，因此这不是一个值得关心的问题了。</li>
+  <li><strong>常量存储</strong>（Constant storage）常量值通常直接放在程序代码中，因为它们永远不会改变。如需严格保护，可考虑将它们置于只读存储器 ROM （只读存储器，Read Only Memory）中 [^3](https://lingcoder.github.io/OnJava8/#/一个例子是字符串常量池。所有文字字符串和字符串值常量表达式都会自动放入特殊的静态存储中。)。</li>
+  <li><strong>非 RAM 存储</strong>（Non-RAM storage）数据完全存在于程序之外，在程序未运行以及脱离程序控制后依然存在。两个主要的例子：（1）序列化对象：对象被转换为字节流，通常被发送到另一台机器；（2）持久化对象：对象被放置在磁盘上，即使程序终止，数据依然存在。这些存储的方式都是将对象转存于另一个介质中，并在需要时恢复成常规的、基于 RAM 的对象。Java 为轻量级持久化提供了支持。而诸如 JDBC 和 Hibernate 这些类库为使用数据库存储和检索对象信息提供了更复杂的支持。</li>
+</ol>
+
+<h3 id="基本类型的存储"><a href="https://lingcoder.github.io/OnJava8/#/book/03-Objects-Everywhere?id=基本类型的存储">基本类型的存储</a></h3>
+
+<p>boolean、char、byte、short、int、long、float、double</p>
+
+<p>Java 确定了每种基本类型的内存占用大小。 这些大小不会像其他一些语言那样随着机器环境的变化而变化。这种不变性也是 Java 更具可移植性的一个原因。 这个变量直接存储”值”，并置于栈内存中，因此更加高效。</p>
+
+<p>我们在 Java 中并没有主动清理这些对象，那么它是如何避免 C++ 中出现的内存被填满从而阻塞程序的问题呢？答案是：Java 的垃圾收集器会检查所有 <code class="highlighter-rouge">new</code> 出来的对象并判断哪些不再可达，继而释放那些被占用的内存，供其他新的对象使用。也就是说，我们不必担心内存回收的问题了。你只需简单创建对象即可。当其不再被需要时，能自行被垃圾收集器释放。垃圾回收机制有效防止了因程序员忘记释放内存而造成的“内存泄漏”问题。</p>
+
+<p>面向对象编程可以总结为：向对象发送消息。</p>
+
+<p>类是对象的外观及行为方式的描述。</p>
+
+<p><strong>static</strong> 关键字（从 C++ 采用）就符合上述两点要求。当我们说某个事物是静态时，就意味着该字段或方法不依赖于任何特定的对象实例 。 即使我们从未创建过该类的对象，也可以调用其静态方法或访问其静态字段。</p>
+
+<h2 id="何为对象引用值传递还是引用传递">何为对象引用，值传递？还是引用传递？</h2>
+
+<p><a href="https://juejin.im/post/5bce68226fb9a05ce46a0476">java都是值传递</a></p>
+
+<h1 id="第四章-运算符"><a href="https://lingcoder.github.io/OnJava8/#/book/04-Operators?id=第四章-运算符">第四章 运算符</a></h1>
+
+<p>对于前递增和前递减（++a，–a），会先进行运算，再返回值；对于后递增和后递减（++a，–a），会先返回值，再进行运算。</p>
+
+<h2 id="integer--问题">Integer == 问题</h2>
+
+<p>Integer 内部维护着一个 IntegerCache 的缓存，默认缓存范围是 [-128, 127]，所以 [-128, 127] 之间的值用 <code class="highlighter-rouge">==</code> 和 <code class="highlighter-rouge">!=</code> 比较也能能到正确的结果，但是不推荐用关系运算符比较，具体见 JDK 中的 Integer 类源码）。</p>
+
+<h1 id="第五章-控制流"><a href="https://lingcoder.github.io/OnJava8/#/book/05-Control-Flow?id=第五章-控制流">第五章 控制流</a></h1>
+
+<h1 id="第六章-初始化和清理"><a href="https://lingcoder.github.io/OnJava8/#/book/06-Housekeeping?id=第六章-初始化和清理">第六章 初始化和清理</a></h1>
+
+
+
+        </div>
+        <div class="mt5 mb4 bt b--black-05 pt4">
+  <p class="f6 gray italic tc">Thanks for reading! — muan</p>
+</div>
+
+      </main>
+      <section class="bt b--black-05 pv4 flex justify-between">
+  
+    <a href="http://localhost:4000/posts/git" class="link blue hover-mid-gray fw6">
+      ← Git 常用命令
+    </a>
+  
+  
+    <a href="http://localhost:4000/posts/markdown" class="link blue hover-mid-gray fw6">
+      Markdown常用命令 →
+    </a>
+  
+</section>
+    </div>
+      <footer class="pv4 tc silver f6">
+        <p class="mb2">just be yourself and one day you will find someone who loves you for everything you are.</p>
+        <p>© 2025 勇敢做自己. Built with Jekyll & ❤️</p>
+      </footer>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+      (function() {
+        const container = document.getElementById('canvas-container');
+        if (!container) return;
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, container.offsetWidth / container.offsetHeight, 0.1, 2000);
+        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        renderer.setSize(container.offsetWidth, container.offsetHeight);
+        container.appendChild(renderer.domElement);
+
+        // Starfield Creation
+        function createStarfield(count, size, color, spread) {
+          const geometry = new THREE.BufferGeometry();
+          const vertices = [];
+          for (let i = 0; i < count; i++) {
+            vertices.push(THREE.MathUtils.randFloatSpread(spread));
+            vertices.push(THREE.MathUtils.randFloatSpread(spread));
+            vertices.push(THREE.MathUtils.randFloatSpread(spread));
+          }
+          geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+          const material = new THREE.PointsMaterial({ 
+            color: color, 
+            size: size, 
+            transparent: true, 
+            opacity: Math.random() * 0.5 + 0.5,
+            blending: THREE.AdditiveBlending 
+          });
+          return new THREE.Points(geometry, material);
+        }
+
+        const stars1 = createStarfield(1500, 2, 0xffffff, 2000);
+        const stars2 = createStarfield(1000, 1.5, 0x4488ff, 2000);
+        const stars3 = createStarfield(500, 3, 0xffaa44, 2000);
+        
+        scene.add(stars1);
+        scene.add(stars2);
+        scene.add(stars3);
+
+        // Earth & Moon
+        const textureLoader = new THREE.TextureLoader();
+        
+        // Earth
+        const earthGeometry = new THREE.SphereGeometry(200, 64, 64);
+        const earthMaterial = new THREE.MeshPhongMaterial({
+          map: textureLoader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_atmos_2048.jpg'),
+          specularMap: textureLoader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_specular_2048.jpg'),
+          normalMap: textureLoader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_normal_2048.jpg'),
+          normalScale: new THREE.Vector2(0.85, 0.85),
+          shininess: 10
+        });
+        const earth = new THREE.Mesh(earthGeometry, earthMaterial);
+        earth.position.set(400, 0, 0);
+        scene.add(earth);
+
+        // Clouds
+        const cloudGeometry = new THREE.SphereGeometry(205, 64, 64);
+        const cloudMaterial = new THREE.MeshLambertMaterial({
+          map: textureLoader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_clouds_1024.png'),
+          transparent: true,
+          opacity: 0.4
+        });
+        const clouds = new THREE.Mesh(cloudGeometry, cloudMaterial);
+        earth.add(clouds);
+
+        // Moon
+        const moonGeometry = new THREE.SphereGeometry(50, 32, 32);
+        const moonMaterial = new THREE.MeshPhongMaterial({
+          map: textureLoader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/moon_1024.jpg'),
+          shininess: 0
+        });
+        const moon = new THREE.Mesh(moonGeometry, moonMaterial);
+        scene.add(moon);
+
+        // Lighting
+        const ambientLight = new THREE.AmbientLight(0x404040, 1.5);
+        scene.add(ambientLight);
+
+        const sunLight = new THREE.DirectionalLight(0xffffff, 2);
+        sunLight.position.set(500, 300, 500);
+        scene.add(sunLight);
+
+        camera.position.z = 1000;
+
+        let moonAngle = 0;
+
+        function animate() {
+          requestAnimationFrame(animate);
+          
+          stars1.rotation.y += 0.0001;
+          stars2.rotation.y -= 0.00015;
+          
+          // Earth Animation
+          earth.rotation.y += 0.002;
+          clouds.rotation.y += 0.001;
+
+          // Moon Animation
+          moonAngle += 0.005;
+          moon.position.x = earth.position.x + Math.cos(moonAngle) * 500;
+          moon.position.z = earth.position.z + Math.sin(moonAngle) * 500;
+          moon.rotation.y += 0.005;
+          
+          renderer.render(scene, camera);
+        }
+
+        window.addEventListener('resize', () => {
+          camera.aspect = container.offsetWidth / container.offsetHeight;
+          camera.updateProjectionMatrix();
+          renderer.setSize(container.offsetWidth, container.offsetHeight);
+        });
+
+        animate();
+      })();
+
+      // Mouse Trail Effect
+      (function() {
+        let lastMouseX = 0;
+        let lastMouseY = 0;
+        const starColors = ['#fff', '#667eea', '#764ba2', '#a0aec0'];
+
+        document.addEventListener('mousemove', (e) => {
+          const distance = Math.sqrt(Math.pow(e.clientX - lastMouseX, 2) + Math.pow(e.clientY - lastMouseY, 2));
+          
+          if (distance > 10) {
+            createStar(e.clientX, e.clientY);
+            lastMouseX = e.clientX;
+            lastMouseY = e.clientY;
+          }
+        });
+
+        function createStar(x, y) {
+          const star = document.createElement('div');
+          star.className = 'star-particle';
+          
+          const size = Math.random() * 6 + 2;
+          const color = starColors[Math.floor(Math.random() * starColors.length)];
+          
+          star.style.width = `${size}px`;
+          star.style.height = `${size}px`;
+          star.style.left = `${x}px`;
+          star.style.top = `${y}px`;
+          star.style.background = color;
+          star.style.boxShadow = `0 0 ${size * 2}px ${size / 2}px ${color}`;
+          
+          document.body.appendChild(star);
+          
+          setTimeout(() => {
+            star.remove();
+          }, 1000);
+        }
+      })();
+    </script>
+</body>
+</html>

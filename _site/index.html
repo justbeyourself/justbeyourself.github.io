@@ -1,0 +1,517 @@
+
+
+<head>
+    <meta name="description" content="just be yourself.">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content=' - 勇敢做自己' name='title' />
+    <meta content=' - 勇敢做自己' name='og:title' />
+    <title> - 勇敢做自己</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Serif+SC:wght@400;700&family=Zhi+Mang+Xing&display=swap" rel="stylesheet">
+<link href='/images/favicon.png' rel='shortcut icon'>
+<link href='/stylesheets/style.css' rel='stylesheet' type='text/css' />
+<link href='/stylesheets/syntax.css' rel='stylesheet' type='text/css' />
+
+<meta content='width=device-width, initial-scale=1.0, user-scalable=no' name='viewport'>
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+  <meta content='http://localhost:4000' property='og:url' />
+  <meta content="just be yourself." property='og:description' />
+  <meta content="blog" property="og:type" />
+
+<!-- - -->
+
+
+
+
+
+</head>
+<body class="lh-copy dark-gray pa0 f6 sans-serif animate-fade-in ">
+    <header class="tl pv5 hero-gradient">
+      <div id="canvas-container"></div>
+      <div class="hero-content mw8 center ph3-ns ph2">
+        <a href="http://localhost:4000" class="floating dib">
+          <img src="/images/logo.png" alt="Home" width="80" height="90" class="br-100 pa2 bg-white-20 shadow-2">
+        </a>
+        <h1 class="f2 fw6 mb0 mt3 white">勇敢做自己</h1>
+        <p class="f5 white-80 mt2">just be yourself.</p>
+      </div>
+    </header>
+    
+    <div class="mw8 center ph3-ns ph2 mt4 mb5">
+      <div class="glass br3 overflow-hidden">
+        <nav class="bb b--black-05 pv3 tc ink-nav" aria-label="Main">
+          <a class="link-underline dib mh3 pv1 fw5 ink-blue" href="/">文章</a>
+          <a class="link-underline dib mh3 pv1 fw5 ink-blue" href="/about">关于我</a>
+        </nav>
+
+        <main class="tl f5 relative pa4 pa5-ns ">
+        
+        <div class="markdown-body">
+          <div class="timeline">
+  
+  <div class="timeline-item animate-slide-up" style="animation-delay: 0.0s">
+    <div class="timeline-marker"></div>
+    <div class="timeline-content">
+      <time class="timeline-date ttu">April 03, 2023</time>
+      <a href="/posts/nginx" class="db link dark-gray card glass br3 pa4 flex flex-column flex-row-ns items-center-ns">
+        <div class="flex-auto">
+          <h3 class="f3 mb2 mt0 lh-title ink-blue">Nginx 对指定 URL 做鉴权</h3>
+          <p class="f6 gray lh-copy mb0">
+            Nginx 对指定 URL 做鉴权 配置示例 server { listen 80; listen [::]:80; server_name localhost; # access_log /var/log/nginx/host.access.log main; location / { root /usr/share/nginx/html; index index.html index.htm; } error_page 500 502 503...
+          </p>
+        </div>
+        <div class="mt3 mt0-ns ml4-ns f6 fw6 ink-blue link-underline dib flex-shrink-0">阅读全文 →</div>
+      </a>
+    </div>
+  </div>
+  
+  <div class="timeline-item animate-slide-up" style="animation-delay: 0.1s">
+    <div class="timeline-marker"></div>
+    <div class="timeline-content">
+      <time class="timeline-date ttu">June 01, 2022</time>
+      <a href="/posts/%E5%88%86%E5%B8%83%E5%BC%8F" class="db link dark-gray card glass br3 pa4 flex flex-column flex-row-ns items-center-ns">
+        <div class="flex-auto">
+          <h3 class="f3 mb2 mt0 lh-title ink-blue">分布式缓存基础</h3>
+          <p class="f6 gray lh-copy mb0">
+            分布式缓存基础
+
+常用框架
+
+  JetCache: 阿里巴巴开源的通用缓存访问框架。
+
+
+进程内缓存框架
+
+  Guava Cache: Google 开发的本地缓存工具。
+
+
+缓存常见问题
+
+1. 二级缓存更新问题
+如何保证本地缓存与分布式缓存的一致性？
+
+  方案一: 设置较短的一级缓存失效时间。
+  方案二: 使用消息队列 (MQ) 通知机制，当二级缓存更新时，发送消息通知所有节点失效其本地缓存。
+
+
+
+          </p>
+        </div>
+        <div class="mt3 mt0-ns ml4-ns f6 fw6 ink-blue link-underline dib flex-shrink-0">阅读全文 →</div>
+      </a>
+    </div>
+  </div>
+  
+  <div class="timeline-item animate-slide-up" style="animation-delay: 0.2s">
+    <div class="timeline-marker"></div>
+    <div class="timeline-content">
+      <time class="timeline-date ttu">April 05, 2022</time>
+      <a href="/posts/kafka" class="db link dark-gray card glass br3 pa4 flex flex-column flex-row-ns items-center-ns">
+        <div class="flex-auto">
+          <h3 class="f3 mb2 mt0 lh-title ink-blue">Kafka 常用命令</h3>
+          <p class="f6 gray lh-copy mb0">
+            Kafka 常用命令 启动与重启 ZooKeeper 启动 # 开启 ZooKeeper (备注：先进入 ZooKeeper 的 bin 目录) ./zkServer.sh start # 关闭 ZooKeeper (备注：先进入 ZooKeeper 的 bin 目录) ./zkServer.sh stop Kafka 启动 # 常规模式启动 Kafka...
+          </p>
+        </div>
+        <div class="mt3 mt0-ns ml4-ns f6 fw6 ink-blue link-underline dib flex-shrink-0">阅读全文 →</div>
+      </a>
+    </div>
+  </div>
+  
+  <div class="timeline-item animate-slide-up" style="animation-delay: 0.3s">
+    <div class="timeline-marker"></div>
+    <div class="timeline-content">
+      <time class="timeline-date ttu">March 03, 2022</time>
+      <a href="/posts/mq" class="db link dark-gray card glass br3 pa4 flex flex-column flex-row-ns items-center-ns">
+        <div class="flex-auto">
+          <h3 class="f3 mb2 mt0 lh-title ink-blue">消息队列 (MQ) 基础知识</h3>
+          <p class="f6 gray lh-copy mb0">
+            消息队列 (MQ) 基础知识 RabbitMQ 主要组成 Producer: 生产者 Consumer: 消费者 Broker: 消息中间件的服务节点 Queue: 队列，RabbitMQ 的内部对象，用于存储消息 订阅模式 多个消费者可以订阅同一个队列，通常以平均分摊的方式消费。 不支持队列层面的广播消息。 交换器 (Exchange) RabbitMQ 常用的交换器类型有： fanout: 相当于广播消息，广播到所有绑定到该交换器的队列。 direct: 路由到 RoutingKey 与 BindingKey 完全匹配的队列。 topic:...
+          </p>
+        </div>
+        <div class="mt3 mt0-ns ml4-ns f6 fw6 ink-blue link-underline dib flex-shrink-0">阅读全文 →</div>
+      </a>
+    </div>
+  </div>
+  
+  <div class="timeline-item animate-slide-up" style="animation-delay: 0.4s">
+    <div class="timeline-marker"></div>
+    <div class="timeline-content">
+      <time class="timeline-date ttu">February 22, 2021</time>
+      <a href="/posts/maven" class="db link dark-gray card glass br3 pa4 flex flex-column flex-row-ns items-center-ns">
+        <div class="flex-auto">
+          <h3 class="f3 mb2 mt0 lh-title ink-blue">Maven 常用命令</h3>
+          <p class="f6 gray lh-copy mb0">
+            Maven 常用命令
+
+版本管理
+
+# 修改版本
+mvn versions:set -DnewVersion=1.0-dev
+
+# 清理并构建
+mvn clean package -DskipTests
+
+# 回滚版本修改
+mvn versions:revert
+
+# 确认版本修改
+mvn versions:commit
+
+
+
+          </p>
+        </div>
+        <div class="mt3 mt0-ns ml4-ns f6 fw6 ink-blue link-underline dib flex-shrink-0">阅读全文 →</div>
+      </a>
+    </div>
+  </div>
+  
+  <div class="timeline-item animate-slide-up" style="animation-delay: 0.5s">
+    <div class="timeline-marker"></div>
+    <div class="timeline-content">
+      <time class="timeline-date ttu">September 15, 2020</time>
+      <a href="/posts/study" class="db link dark-gray card glass br3 pa4 flex flex-column flex-row-ns items-center-ns">
+        <div class="flex-auto">
+          <h3 class="f3 mb2 mt0 lh-title ink-blue">Study</h3>
+          <p class="f6 gray lh-copy mb0">
+            [TOC] JVM GC 查看GC回收器类型 java -XX:+PrintCommandLineFlags -version -XX:InitialHeapSize=67108864 -XX:MaxHeapSize=1073741824 -XX:+PrintCommandLineFlags -XX:+UseCompressedClassPointers -XX:+UseCompressedOops -XX:+UseParallelGC java version "1.8.0_131" Java(TM) SE Runtime Environment (build 1.8.0_131-b11) Java HotSpot(TM) 64-Bit Server VM (build 25.131-b11, mixed...
+          </p>
+        </div>
+        <div class="mt3 mt0-ns ml4-ns f6 fw6 ink-blue link-underline dib flex-shrink-0">阅读全文 →</div>
+      </a>
+    </div>
+  </div>
+  
+  <div class="timeline-item animate-slide-up" style="animation-delay: 0.6s">
+    <div class="timeline-marker"></div>
+    <div class="timeline-content">
+      <time class="timeline-date ttu">August 11, 2020</time>
+      <a href="/posts/binlog2sql" class="db link dark-gray card glass br3 pa4 flex flex-column flex-row-ns items-center-ns">
+        <div class="flex-auto">
+          <h3 class="f3 mb2 mt0 lh-title ink-blue">mysql闪回</h3>
+          <p class="f6 gray lh-copy mb0">
+            引用 binlog2sql binlog2sql 从 MySQL binlog 解析出你要的 SQL。根据不同选项，你可以得到原始 SQL、回滚 SQL、去除主键 the INSERT SQL 等。 用途 数据快速回滚 (闪回) 主从切换后新 master 丢数据的修复 从 binlog 生成标准 SQL，带来的衍生功能 环境 已测试环境 Python 2.7, 3.4+ MySQL...
+          </p>
+        </div>
+        <div class="mt3 mt0-ns ml4-ns f6 fw6 ink-blue link-underline dib flex-shrink-0">阅读全文 →</div>
+      </a>
+    </div>
+  </div>
+  
+  <div class="timeline-item animate-slide-up" style="animation-delay: 0.7s">
+    <div class="timeline-marker"></div>
+    <div class="timeline-content">
+      <time class="timeline-date ttu">March 12, 2020</time>
+      <a href="/posts/DB" class="db link dark-gray card glass br3 pa4 flex flex-column flex-row-ns items-center-ns">
+        <div class="flex-auto">
+          <h3 class="f3 mb2 mt0 lh-title ink-blue">DB，mysql相关</h3>
+          <p class="f6 gray lh-copy mb0">
+            分布式关系数据库（DRDS） why how mysql 小知识 分布式关系数据库（DRDS） why 任何问题都是太大或者太小的问题，我们这里面对的数据量太大的问题。 1.用户请求量太大 因为单服务器TPS，内存，IO都是有限的。 解决方法：分散请求到多个服务器上； 其实用户请求和执行一个sql查询是本质是一样的，都是请求一个资源，只是用户请求还会经过网关，路由，http服务器等。 2.单库太大 单个数据库处理能力有限；单库所在服务器上磁盘空间不足；单库上操作的IO瓶颈 解决方法：切分成更多更小的库 3.单表太大 CRUD都成问题；索引膨胀，查询超时 解决方法：切分成多个数据集更小的表。 how 扩展性本质在于分而治之。 1.垂直拆分 垂直拆分是具备业务语义的，比如和交易紧相关的表组成一个交易库，和用户紧相关的表组成一个用户库，和商品紧相关的表组成一个商品库，分别放置在不同或相同的MySQL 实例上。 2.水平拆分 数据放置按照一定的规则进行计算和路由，从而达到分散到多个实例的目的。 3.主从复制，读写分离 在主实例的读请求较多、读压力比较大的时候，可以通过读写分离功能对读流量进行分流，减轻主实例的读压力。 mysql -- 跳过...
+          </p>
+        </div>
+        <div class="mt3 mt0-ns ml4-ns f6 fw6 ink-blue link-underline dib flex-shrink-0">阅读全文 →</div>
+      </a>
+    </div>
+  </div>
+  
+  <div class="timeline-item animate-slide-up" style="animation-delay: 0.8s">
+    <div class="timeline-marker"></div>
+    <div class="timeline-content">
+      <time class="timeline-date ttu">October 30, 2019</time>
+      <a href="/posts/markdown" class="db link dark-gray card glass br3 pa4 flex flex-column flex-row-ns items-center-ns">
+        <div class="flex-auto">
+          <h3 class="f3 mb2 mt0 lh-title ink-blue">Markdown常用命令</h3>
+          <p class="f6 gray lh-copy mb0">
+            标题 区块引用 列表 代码块 横线 链接 内嵌链接： 参考文献式链接： 以链接地址作为链接文本 字体 图片 转义字符 段落前空格 Markdown 是一种轻量级标记语言，它允许人们使用易读易写的纯文本格式编写文档，文档后缀为 .md, .markdown。 2004 约翰·格鲁伯（John Gruber）维基百科 标题 # 一级标题 ## 二级标题 ####### 七级标题 tips：最多六级标题 区块引用 &gt;...
+          </p>
+        </div>
+        <div class="mt3 mt0-ns ml4-ns f6 fw6 ink-blue link-underline dib flex-shrink-0">阅读全文 →</div>
+      </a>
+    </div>
+  </div>
+  
+  <div class="timeline-item animate-slide-up" style="animation-delay: 0.9s">
+    <div class="timeline-marker"></div>
+    <div class="timeline-content">
+      <time class="timeline-date ttu">January 01, 2019</time>
+      <a href="/posts/OnJava8" class="db link dark-gray card glass br3 pa4 flex flex-column flex-row-ns items-center-ns">
+        <div class="flex-auto">
+          <h3 class="f3 mb2 mt0 lh-title ink-blue">OnJava8笔记</h3>
+          <p class="f6 gray lh-copy mb0">
+            第一章 对象的概念 第二章 安装Java和本书用例 第三章 万物皆对象 基本类型的存储 何为对象引用，值传递？还是引用传递？ 第四章 运算符 Integer == 问题 第五章 控制流 第六章 初始化和清理 《On Java 8》中文版，是事实上的《Java 编程思想》第5版。 on java 8 第一章 对象的概念 万物皆对象 抽象、封装、继承、多态 面向过程程序包含数据定义和函数调用。要找到程序的意图，你必须要在脑中建立一个模型，弄清函数调用和更底层的概念。这些程序令人困扰，因为它们的表示更多地面向计算机而不是我们要解决的问题，这就是我们在设计程序时需要中间表示的原因。 面向对象编程（Object-Oriented...
+          </p>
+        </div>
+        <div class="mt3 mt0-ns ml4-ns f6 fw6 ink-blue link-underline dib flex-shrink-0">阅读全文 →</div>
+      </a>
+    </div>
+  </div>
+  
+  <div class="timeline-item animate-slide-up" style="animation-delay: 1.0s">
+    <div class="timeline-marker"></div>
+    <div class="timeline-content">
+      <time class="timeline-date ttu">July 01, 2018</time>
+      <a href="/posts/git" class="db link dark-gray card glass br3 pa4 flex flex-column flex-row-ns items-center-ns">
+        <div class="flex-auto">
+          <h3 class="f3 mb2 mt0 lh-title ink-blue">Git 常用命令</h3>
+          <p class="f6 gray lh-copy mb0">
+            持续更新中 仓库初始化与管理 在本地初始化新仓库 git init 将文件纳入版本控制 git add . 提交 git commit -m "commit message" 检查当前文件状态 git status 远程仓库操作 从现有库克隆 git clone https://github.com/…/PrettyGirls.git 查看远程仓库地址 git remote -v 更换远程仓库地址 git remote...
+          </p>
+        </div>
+        <div class="mt3 mt0-ns ml4-ns f6 fw6 ink-blue link-underline dib flex-shrink-0">阅读全文 →</div>
+      </a>
+    </div>
+  </div>
+  
+  <div class="timeline-item animate-slide-up" style="animation-delay: 1.1s">
+    <div class="timeline-marker"></div>
+    <div class="timeline-content">
+      <time class="timeline-date ttu">May 01, 2018</time>
+      <a href="/posts/linux" class="db link dark-gray card glass br3 pa4 flex flex-column flex-row-ns items-center-ns">
+        <div class="flex-auto">
+          <h3 class="f3 mb2 mt0 lh-title ink-blue">linux常用命令</h3>
+          <p class="f6 gray lh-copy mb0">
+            启动脚本 nohup &amp; curl watch tail 命令语法 vmstat ifconfig 查看ip scp远程传输 压缩解压 防火墙相关命令 防火墙的开启、关闭、禁用命令 使用firewall-cmd配置端口 查看历史记录 查看linux版本号 less 命令乱码 串口相关指令 查看文件大小 列出当前文件夹下所有文件对应的大小 列出当前目录下每个文件的大小，同时也会给出当前目录下所有文件大小总和 Netstat 是一款命令行工具，可用于列出系统上所有的网络套接字连接情况 列出所有当前的连接 使用 -t 选项列出 TCP...
+          </p>
+        </div>
+        <div class="mt3 mt0-ns ml4-ns f6 fw6 ink-blue link-underline dib flex-shrink-0">阅读全文 →</div>
+      </a>
+    </div>
+  </div>
+  
+  <div class="timeline-item animate-slide-up" style="animation-delay: 1.2s">
+    <div class="timeline-marker"></div>
+    <div class="timeline-content">
+      <time class="timeline-date ttu">October 29, 2016</time>
+      <a href="/posts/leaveHome" class="db link dark-gray card glass br3 pa4 flex flex-column flex-row-ns items-center-ns">
+        <div class="flex-auto">
+          <h3 class="f3 mb2 mt0 lh-title ink-blue">离乡</h3>
+          <p class="f6 gray lh-copy mb0">
+            
+         离乡
+
+秋风瑟瑟行人急，落叶总把伤情忆。
+
+家中父母遥相念，异乡游子多添衣。
+
+
+          </p>
+        </div>
+        <div class="mt3 mt0-ns ml4-ns f6 fw6 ink-blue link-underline dib flex-shrink-0">阅读全文 →</div>
+      </a>
+    </div>
+  </div>
+  
+  <div class="timeline-item animate-slide-up" style="animation-delay: 1.3s">
+    <div class="timeline-marker"></div>
+    <div class="timeline-content">
+      <time class="timeline-date ttu">August 15, 2016</time>
+      <a href="/posts/comeIntoTheWorld" class="db link dark-gray card glass br3 pa4 flex flex-column flex-row-ns items-center-ns">
+        <div class="flex-auto">
+          <h3 class="f3 mb2 mt0 lh-title ink-blue">出生</h3>
+          <p class="f6 gray lh-copy mb0">
+            
+  二十多年前的一天，随着一声啼哭，我来到了这个世界。虽然没有什么印象，但是我知道，那天叔叔阿姨肯定来了一大推。他们都满心欢喜地围在床边，说着各式各样的的吉祥话。当然最开心的，肯定还是爷爷奶奶，毕竟老张家这一辈终于添了一个男丁，没办法不高兴。老话讲，老张家后继有人了。你们别觉得这是老封建思想，有这个想法的，你们肯定不知道，在山东农村老一辈的人心中，有一个儿子，是多么重要的事情啊。
+
+  等两个姐姐，把前来“添香”亲友都送回家，也都太累了，早早回屋休息去了。只剩下爸爸妈妈和爷爷奶奶，还坐在床边，看着对新世界充满好奇的我。
+
+  “得起个名呀”，看了看，躺在床上抱着我的妈妈，还没等妈妈说话，爸爸笑了笑接着说，“要不叫张三儿吧，张家排行老三”。
+
+  “滚一边儿玩去”，妈妈头都没抬地回了一句。
+
+  听到这句，爸爸果然灰头土脸的“滚”到一旁爷爷身边去了。“爹，要不你给起一个吧”，爷爷想了好一会儿，刚要说话。坐在床边的奶奶，说话了，“就叫勇吧，小名勇子。以后要做一个勇敢的男子汉！像样点！”，说完，撇了一眼一旁的爷爷，又转头去看她的大孙子去了。
+
+  爷爷，咽了咽口水，赶紧笑着说，“勇子好听，我本来也想起这个名的，就叫这个名吧”。
+
+  “滚一边儿玩去”，奶奶头都没回地回了一句。
+
+  “哈哈哈”，一旁的老爸没忍住笑了起来。爷爷本来笑呵呵的脸庞，立刻黑了下来，朝着老爸的屁股就是一脚，“笑屁，滚一边儿玩去”。
+
+  “哎吆”，老爸不知道是笑没劲儿了，还是真没掌握好平衡，被爷爷踢了一脚，还当真滚了到一边“玩”去了。
+
+  妈妈和奶奶连忙起身，关切的看向爸爸，异口同声地问道，“没事吧？”没事吧？“。
+
+  “没事没事，我光顾着看娃了，没注意，再来一次，我肯定倒不了了”，爸爸，一边说着，一边赶紧从地上站了起来，怯生生地看了一眼爷爷。爷爷也怯生生地看了一眼奶奶。奶奶和妈妈默契地看了一眼对方，“哈哈哈哈哈”，大家都笑了起来。
+
+  随着阵阵笑声，我眼前的世界也变得越来越“沉重”，慢慢变成了一片黑暗。这时，不知道谁说了一句，“看，娃儿睡着了”。
+
+
+          </p>
+        </div>
+        <div class="mt3 mt0-ns ml4-ns f6 fw6 ink-blue link-underline dib flex-shrink-0">阅读全文 →</div>
+      </a>
+    </div>
+  </div>
+  
+</div>
+
+        </div>
+        
+      </main>
+      
+    </div>
+      <footer class="pv4 tc silver f6">
+        <p class="mb2">just be yourself and one day you will find someone who loves you for everything you are.</p>
+        <p>© 2025 勇敢做自己. Built with Jekyll & ❤️</p>
+      </footer>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+      (function() {
+        const container = document.getElementById('canvas-container');
+        if (!container) return;
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, container.offsetWidth / container.offsetHeight, 0.1, 2000);
+        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        renderer.setSize(container.offsetWidth, container.offsetHeight);
+        container.appendChild(renderer.domElement);
+
+        // Starfield Creation
+        function createStarfield(count, size, color, spread) {
+          const geometry = new THREE.BufferGeometry();
+          const vertices = [];
+          for (let i = 0; i < count; i++) {
+            vertices.push(THREE.MathUtils.randFloatSpread(spread));
+            vertices.push(THREE.MathUtils.randFloatSpread(spread));
+            vertices.push(THREE.MathUtils.randFloatSpread(spread));
+          }
+          geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+          const material = new THREE.PointsMaterial({ 
+            color: color, 
+            size: size, 
+            transparent: true, 
+            opacity: Math.random() * 0.5 + 0.5,
+            blending: THREE.AdditiveBlending 
+          });
+          return new THREE.Points(geometry, material);
+        }
+
+        const stars1 = createStarfield(1500, 2, 0xffffff, 2000);
+        const stars2 = createStarfield(1000, 1.5, 0x4488ff, 2000);
+        const stars3 = createStarfield(500, 3, 0xffaa44, 2000);
+        
+        scene.add(stars1);
+        scene.add(stars2);
+        scene.add(stars3);
+
+        // Earth & Moon
+        const textureLoader = new THREE.TextureLoader();
+        
+        // Earth
+        const earthGeometry = new THREE.SphereGeometry(200, 64, 64);
+        const earthMaterial = new THREE.MeshPhongMaterial({
+          map: textureLoader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_atmos_2048.jpg'),
+          specularMap: textureLoader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_specular_2048.jpg'),
+          normalMap: textureLoader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_normal_2048.jpg'),
+          normalScale: new THREE.Vector2(0.85, 0.85),
+          shininess: 10
+        });
+        const earth = new THREE.Mesh(earthGeometry, earthMaterial);
+        earth.position.set(400, 0, 0);
+        scene.add(earth);
+
+        // Clouds
+        const cloudGeometry = new THREE.SphereGeometry(205, 64, 64);
+        const cloudMaterial = new THREE.MeshLambertMaterial({
+          map: textureLoader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_clouds_1024.png'),
+          transparent: true,
+          opacity: 0.4
+        });
+        const clouds = new THREE.Mesh(cloudGeometry, cloudMaterial);
+        earth.add(clouds);
+
+        // Moon
+        const moonGeometry = new THREE.SphereGeometry(50, 32, 32);
+        const moonMaterial = new THREE.MeshPhongMaterial({
+          map: textureLoader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/moon_1024.jpg'),
+          shininess: 0
+        });
+        const moon = new THREE.Mesh(moonGeometry, moonMaterial);
+        scene.add(moon);
+
+        // Lighting
+        const ambientLight = new THREE.AmbientLight(0x404040, 1.5);
+        scene.add(ambientLight);
+
+        const sunLight = new THREE.DirectionalLight(0xffffff, 2);
+        sunLight.position.set(500, 300, 500);
+        scene.add(sunLight);
+
+        camera.position.z = 1000;
+
+        let moonAngle = 0;
+
+        function animate() {
+          requestAnimationFrame(animate);
+          
+          stars1.rotation.y += 0.0001;
+          stars2.rotation.y -= 0.00015;
+          
+          // Earth Animation
+          earth.rotation.y += 0.002;
+          clouds.rotation.y += 0.001;
+
+          // Moon Animation
+          moonAngle += 0.005;
+          moon.position.x = earth.position.x + Math.cos(moonAngle) * 500;
+          moon.position.z = earth.position.z + Math.sin(moonAngle) * 500;
+          moon.rotation.y += 0.005;
+          
+          renderer.render(scene, camera);
+        }
+
+        window.addEventListener('resize', () => {
+          camera.aspect = container.offsetWidth / container.offsetHeight;
+          camera.updateProjectionMatrix();
+          renderer.setSize(container.offsetWidth, container.offsetHeight);
+        });
+
+        animate();
+      })();
+
+      // Mouse Trail Effect
+      (function() {
+        let lastMouseX = 0;
+        let lastMouseY = 0;
+        const starColors = ['#fff', '#667eea', '#764ba2', '#a0aec0'];
+
+        document.addEventListener('mousemove', (e) => {
+          const distance = Math.sqrt(Math.pow(e.clientX - lastMouseX, 2) + Math.pow(e.clientY - lastMouseY, 2));
+          
+          if (distance > 10) {
+            createStar(e.clientX, e.clientY);
+            lastMouseX = e.clientX;
+            lastMouseY = e.clientY;
+          }
+        });
+
+        function createStar(x, y) {
+          const star = document.createElement('div');
+          star.className = 'star-particle';
+          
+          const size = Math.random() * 6 + 2;
+          const color = starColors[Math.floor(Math.random() * starColors.length)];
+          
+          star.style.width = `${size}px`;
+          star.style.height = `${size}px`;
+          star.style.left = `${x}px`;
+          star.style.top = `${y}px`;
+          star.style.background = color;
+          star.style.boxShadow = `0 0 ${size * 2}px ${size / 2}px ${color}`;
+          
+          document.body.appendChild(star);
+          
+          setTimeout(() => {
+            star.remove();
+          }, 1000);
+        }
+      })();
+    </script>
+</body>
+</html>

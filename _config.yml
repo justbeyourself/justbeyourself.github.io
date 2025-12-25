@@ -1,6 +1,9 @@
 # ----------- CONFIGURABLE START -----------
 title:            "勇敢做自己"
 description:      "just be yourself."
+keywords:         "blog, technology, programming" # 添加关键词
+author:           "Your Name" # 添加作者信息
+language:         "zh-CN"    # 指定语言
 url:              https://justbeyourself.github.io # Site url, without a slash at the end.
 signoff:          "muan" # Your name
 facebook_appid:   # APP ID for like button, remove from /_includes/share.html if unwanted.
@@ -8,10 +11,10 @@ google_analytics: # Set tracking, remove from /javascripts/basic.js if unwanted.
 share:            false # Turn on twitter and facebook share buttons
 
 links:
-  - name:         Posts
+  - name:         文章
     url:          /
     external:     false
-  - name:         About me
+  - name:         关于我
     url:          /about
     external:     false
 # ------------ CONFIGURABLE END ------------

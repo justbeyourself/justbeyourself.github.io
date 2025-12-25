@@ -1,13 +1,22 @@
 ---
 ---
 
-<ul class="list pa0">
+<div class="timeline">
   {% for post in site.posts %}
-  <li class="mv2">
-    <a href="{{ site.url }}{{ post.url }}" class="db pv1 link blue hover-mid-gray">
-      <time class="fr silver ttu">{{ post.date | date_to_string }} </time>
-      {{ post.title }}
-    </a>
-  </li>
+  <div class="timeline-item animate-slide-up" style="animation-delay: {{ forloop.index0 | times: 0.1 }}s">
+    <div class="timeline-marker"></div>
+    <div class="timeline-content">
+      <time class="timeline-date ttu">{{ post.date | date: "%B %d, %Y" }}</time>
+      <a href="{{ post.url | relative_url }}" class="db link dark-gray card glass br3 pa4 flex flex-column flex-row-ns items-center-ns">
+        <div class="flex-auto">
+          <h3 class="f3 mb2 mt0 lh-title ink-blue">{{ post.title }}</h3>
+          <p class="f6 gray lh-copy mb0">
+            {{ post.content | strip_html | truncatewords: 30 }}
+          </p>
+        </div>
+        <div class="mt3 mt0-ns ml4-ns f6 fw6 ink-blue link-underline dib flex-shrink-0">阅读全文 →</div>
+      </a>
+    </div>
+  </div>
   {% endfor %}
-</ul>
+</div>

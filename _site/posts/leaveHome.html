@@ -1,0 +1,251 @@
+
+
+<head>
+    <meta name="description" content="just be yourself.">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content='离乡 - 勇敢做自己' name='title' />
+    <meta content='离乡 - 勇敢做自己' name='og:title' />
+    <title>离乡 - 勇敢做自己</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Serif+SC:wght@400;700&family=Zhi+Mang+Xing&display=swap" rel="stylesheet">
+<link href='/images/favicon.png' rel='shortcut icon'>
+<link href='/stylesheets/style.css' rel='stylesheet' type='text/css' />
+<link href='/stylesheets/syntax.css' rel='stylesheet' type='text/css' />
+
+<meta content='width=device-width, initial-scale=1.0, user-scalable=no' name='viewport'>
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+  <meta content='http://localhost:4000/posts/leaveHome' property='og:url' />
+  <meta content="         离乡秋风瑟瑟行人急，落叶总把伤情忆。家中父母遥相念，异乡游子多添衣。" property='og:description' />
+  <meta content="article" property="og:type" />
+
+<!-- - -->
+
+
+
+
+
+</head>
+<body class="lh-copy dark-gray pa0 f6 sans-serif animate-fade-in post-page">
+    <header class="tl pv5 hero-gradient">
+      <div id="canvas-container"></div>
+      <div class="hero-content mw8 center ph3-ns ph2">
+        <a href="http://localhost:4000" class="floating dib">
+          <img src="/images/logo.png" alt="Home" width="80" height="90" class="br-100 pa2 bg-white-20 shadow-2">
+        </a>
+        <h1 class="f2 fw6 mb0 mt3 white">勇敢做自己</h1>
+        <p class="f5 white-80 mt2">just be yourself.</p>
+      </div>
+    </header>
+    
+    <div class="mw8 center ph3-ns ph2 mt4 mb5">
+      <div class="glass br3 overflow-hidden">
+        <nav class="bb b--black-05 pv3 tc ink-nav" aria-label="Main">
+          <a class="link-underline dib mh3 pv1 fw5 ink-blue" href="/">文章</a>
+          <a class="link-underline dib mh3 pv1 fw5 ink-blue" href="/about">关于我</a>
+        </nav>
+
+        <main class="tl f5 relative pa4 pa5-ns ink-content">
+        
+          <div class="mb4">
+            <div class="fw600 light-silver mt1">29 Oct 2016</div>
+            <h1 class="ttu f2 mt0 lh-title cb mb2 blue">
+              
+              离乡
+            </h1>
+            
+          </div>
+        
+        <div class="markdown-body">
+          
+<p>         离乡</p>
+
+<p>秋风瑟瑟行人急，落叶总把伤情忆。</p>
+
+<p>家中父母遥相念，异乡游子多添衣。</p>
+
+
+
+        </div>
+        <div class="mt5 mb4 bt b--black-05 pt4">
+  <p class="f6 gray italic tc">Thanks for reading! — muan</p>
+</div>
+
+      </main>
+      <section class="bt b--black-05 pv4 flex justify-between">
+  
+    <a href="http://localhost:4000/posts/comeIntoTheWorld" class="link blue hover-mid-gray fw6">
+      ← 出生
+    </a>
+  
+  
+    <a href="http://localhost:4000/posts/linux" class="link blue hover-mid-gray fw6">
+      linux常用命令 →
+    </a>
+  
+</section>
+    </div>
+      <footer class="pv4 tc silver f6">
+        <p class="mb2">just be yourself and one day you will find someone who loves you for everything you are.</p>
+        <p>© 2025 勇敢做自己. Built with Jekyll & ❤️</p>
+      </footer>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+      (function() {
+        const container = document.getElementById('canvas-container');
+        if (!container) return;
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, container.offsetWidth / container.offsetHeight, 0.1, 2000);
+        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        renderer.setSize(container.offsetWidth, container.offsetHeight);
+        container.appendChild(renderer.domElement);
+
+        // Starfield Creation
+        function createStarfield(count, size, color, spread) {
+          const geometry = new THREE.BufferGeometry();
+          const vertices = [];
+          for (let i = 0; i < count; i++) {
+            vertices.push(THREE.MathUtils.randFloatSpread(spread));
+            vertices.push(THREE.MathUtils.randFloatSpread(spread));
+            vertices.push(THREE.MathUtils.randFloatSpread(spread));
+          }
+          geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+          const material = new THREE.PointsMaterial({ 
+            color: color, 
+            size: size, 
+            transparent: true, 
+            opacity: Math.random() * 0.5 + 0.5,
+            blending: THREE.AdditiveBlending 
+          });
+          return new THREE.Points(geometry, material);
+        }
+
+        const stars1 = createStarfield(1500, 2, 0xffffff, 2000);
+        const stars2 = createStarfield(1000, 1.5, 0x4488ff, 2000);
+        const stars3 = createStarfield(500, 3, 0xffaa44, 2000);
+        
+        scene.add(stars1);
+        scene.add(stars2);
+        scene.add(stars3);
+
+        // Earth & Moon
+        const textureLoader = new THREE.TextureLoader();
+        
+        // Earth
+        const earthGeometry = new THREE.SphereGeometry(200, 64, 64);
+        const earthMaterial = new THREE.MeshPhongMaterial({
+          map: textureLoader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_atmos_2048.jpg'),
+          specularMap: textureLoader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_specular_2048.jpg'),
+          normalMap: textureLoader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_normal_2048.jpg'),
+          normalScale: new THREE.Vector2(0.85, 0.85),
+          shininess: 10
+        });
+        const earth = new THREE.Mesh(earthGeometry, earthMaterial);
+        earth.position.set(400, 0, 0);
+        scene.add(earth);
+
+        // Clouds
+        const cloudGeometry = new THREE.SphereGeometry(205, 64, 64);
+        const cloudMaterial = new THREE.MeshLambertMaterial({
+          map: textureLoader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_clouds_1024.png'),
+          transparent: true,
+          opacity: 0.4
+        });
+        const clouds = new THREE.Mesh(cloudGeometry, cloudMaterial);
+        earth.add(clouds);
+
+        // Moon
+        const moonGeometry = new THREE.SphereGeometry(50, 32, 32);
+        const moonMaterial = new THREE.MeshPhongMaterial({
+          map: textureLoader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/moon_1024.jpg'),
+          shininess: 0
+        });
+        const moon = new THREE.Mesh(moonGeometry, moonMaterial);
+        scene.add(moon);
+
+        // Lighting
+        const ambientLight = new THREE.AmbientLight(0x404040, 1.5);
+        scene.add(ambientLight);
+
+        const sunLight = new THREE.DirectionalLight(0xffffff, 2);
+        sunLight.position.set(500, 300, 500);
+        scene.add(sunLight);
+
+        camera.position.z = 1000;
+
+        let moonAngle = 0;
+
+        function animate() {
+          requestAnimationFrame(animate);
+          
+          stars1.rotation.y += 0.0001;
+          stars2.rotation.y -= 0.00015;
+          
+          // Earth Animation
+          earth.rotation.y += 0.002;
+          clouds.rotation.y += 0.001;
+
+          // Moon Animation
+          moonAngle += 0.005;
+          moon.position.x = earth.position.x + Math.cos(moonAngle) * 500;
+          moon.position.z = earth.position.z + Math.sin(moonAngle) * 500;
+          moon.rotation.y += 0.005;
+          
+          renderer.render(scene, camera);
+        }
+
+        window.addEventListener('resize', () => {
+          camera.aspect = container.offsetWidth / container.offsetHeight;
+          camera.updateProjectionMatrix();
+          renderer.setSize(container.offsetWidth, container.offsetHeight);
+        });
+
+        animate();
+      })();
+
+      // Mouse Trail Effect
+      (function() {
+        let lastMouseX = 0;
+        let lastMouseY = 0;
+        const starColors = ['#fff', '#667eea', '#764ba2', '#a0aec0'];
+
+        document.addEventListener('mousemove', (e) => {
+          const distance = Math.sqrt(Math.pow(e.clientX - lastMouseX, 2) + Math.pow(e.clientY - lastMouseY, 2));
+          
+          if (distance > 10) {
+            createStar(e.clientX, e.clientY);
+            lastMouseX = e.clientX;
+            lastMouseY = e.clientY;
+          }
+        });
+
+        function createStar(x, y) {
+          const star = document.createElement('div');
+          star.className = 'star-particle';
+          
+          const size = Math.random() * 6 + 2;
+          const color = starColors[Math.floor(Math.random() * starColors.length)];
+          
+          star.style.width = `${size}px`;
+          star.style.height = `${size}px`;
+          star.style.left = `${x}px`;
+          star.style.top = `${y}px`;
+          star.style.background = color;
+          star.style.boxShadow = `0 0 ${size * 2}px ${size / 2}px ${color}`;
+          
+          document.body.appendChild(star);
+          
+          setTimeout(() => {
+            star.remove();
+          }, 1000);
+        }
+      })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,412 @@
+
+
+<head>
+    <meta name="description" content="just be yourself.">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content='mysql闪回 - 勇敢做自己' name='title' />
+    <meta content='mysql闪回 - 勇敢做自己' name='og:title' />
+    <title>mysql闪回 - 勇敢做自己</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Serif+SC:wght@400;700&family=Zhi+Mang+Xing&display=swap" rel="stylesheet">
+<link href='/images/favicon.png' rel='shortcut icon'>
+<link href='/stylesheets/style.css' rel='stylesheet' type='text/css' />
+<link href='/stylesheets/syntax.css' rel='stylesheet' type='text/css' />
+
+<meta content='width=device-width, initial-scale=1.0, user-scalable=no' name='viewport'>
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+  <meta content='http://localhost:4000/posts/binlog2sql' property='og:url' />
+  <meta content="  引用 binlog2sqlbinlog2sql从 MySQL binlog 解析出你要的 SQL。根据不同选项，你可以得到原始 SQL、回滚 SQL、去除主键 the INSERT SQL 等。用途  数据快速回滚 (闪回)  主..." property='og:description' />
+  <meta content="article" property="og:type" />
+
+<!-- - -->
+
+
+
+
+
+</head>
+<body class="lh-copy dark-gray pa0 f6 sans-serif animate-fade-in post-page">
+    <header class="tl pv5 hero-gradient">
+      <div id="canvas-container"></div>
+      <div class="hero-content mw8 center ph3-ns ph2">
+        <a href="http://localhost:4000" class="floating dib">
+          <img src="/images/logo.png" alt="Home" width="80" height="90" class="br-100 pa2 bg-white-20 shadow-2">
+        </a>
+        <h1 class="f2 fw6 mb0 mt3 white">勇敢做自己</h1>
+        <p class="f5 white-80 mt2">just be yourself.</p>
+      </div>
+    </header>
+    
+    <div class="mw8 center ph3-ns ph2 mt4 mb5">
+      <div class="glass br3 overflow-hidden">
+        <nav class="bb b--black-05 pv3 tc ink-nav" aria-label="Main">
+          <a class="link-underline dib mh3 pv1 fw5 ink-blue" href="/">文章</a>
+          <a class="link-underline dib mh3 pv1 fw5 ink-blue" href="/about">关于我</a>
+        </nav>
+
+        <main class="tl f5 relative pa4 pa5-ns ink-content">
+        
+          <div class="mb4">
+            <div class="fw600 light-silver mt1">11 Aug 2020</div>
+            <h1 class="ttu f2 mt0 lh-title cb mb2 blue">
+              
+              mysql闪回
+            </h1>
+            
+          </div>
+        
+        <div class="markdown-body">
+          <blockquote>
+  <p>引用 <a href="https://github.com/danfengcao/binlog2sql">binlog2sql</a></p>
+</blockquote>
+
+<h1 id="binlog2sql">binlog2sql</h1>
+
+<p>从 MySQL binlog 解析出你要的 SQL。根据不同选项，你可以得到原始 SQL、回滚 SQL、去除主键 the INSERT SQL 等。</p>
+
+<h2 id="用途">用途</h2>
+
+<ul>
+  <li>数据快速回滚 (闪回)</li>
+  <li>主从切换后新 master 丢数据的修复</li>
+  <li>从 binlog 生成标准 SQL，带来的衍生功能</li>
+</ul>
+
+<h2 id="环境">环境</h2>
+
+<ul>
+  <li><strong>已测试环境</strong>
+    <ul>
+      <li>Python 2.7, 3.4+</li>
+      <li>MySQL 5.6, 5.7</li>
+      <li><em>注：MySQL 8.0 PyMySQL==0.9.3 必须是这个版本</em></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="安装">安装</h2>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>git clone https://github.com/danfengcao/binlog2sql.git <span class="o">&amp;&amp;</span> <span class="nb">cd </span>binlog2sql
+pip install -r requirements.txt
+</code></pre>
+</div>
+<p><em>git 与 pip 的安装问题请自行搜索解决。</em></p>
+
+<h2 id="使用">使用</h2>
+
+<h3 id="mysql-server-必须设置以下参数">MySQL Server 必须设置以下参数</h3>
+
+<div class="language-ini highlighter-rouge"><pre class="highlight"><code><span class="nn">[mysqld]</span>
+<span class="py">server_id</span> <span class="p">=</span> <span class="s">1</span>
+<span class="py">log_bin</span> <span class="p">=</span> <span class="s">/var/log/mysql/mysql-bin.log</span>
+<span class="py">max_binlog_size</span> <span class="p">=</span> <span class="s">1G</span>
+<span class="py">binlog_format</span> <span class="p">=</span> <span class="s">row</span>
+<span class="py">binlog_row_image</span> <span class="p">=</span> <span class="s">full</span>
+</code></pre>
+</div>
+
+<h3 id="user-需要的最小权限集合">User 需要的最小权限集合</h3>
+
+<div class="language-sql highlighter-rouge"><pre class="highlight"><code><span class="c1">-- 最小权限：select, super/replication client, replication slave</span>
+<span class="c1">-- 建议授权</span>
+<span class="k">GRANT</span> <span class="k">SELECT</span><span class="p">,</span> <span class="n">REPLICATION</span> <span class="n">SLAVE</span><span class="p">,</span> <span class="n">REPLICATION</span> <span class="n">CLIENT</span> <span class="k">ON</span> <span class="o">*</span><span class="p">.</span><span class="o">*</span> <span class="k">TO</span> <span class="s1">'user'</span><span class="o">@</span><span class="s1">'host'</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<p><strong>权限说明</strong></p>
+
+<ul>
+  <li><code class="highlighter-rouge">select</code>：需要读取 server 端 <code class="highlighter-rouge">information_schema.COLUMNS</code> 表，获取表结构的元信息，拼接成可视化的 SQL 语句。</li>
+  <li><code class="highlighter-rouge">super/replication client</code>：两个权限都可以，需要执行 <code class="highlighter-rouge">SHOW MASTER STATUS</code>，获取 server 端的 binlog 列表。</li>
+  <li><code class="highlighter-rouge">replication slave</code>：通过 <code class="highlighter-rouge">BINLOG_DUMP</code> 协议获取 binlog 内容的权限。</li>
+</ul>
+
+<h3 id="基本用法">基本用法</h3>
+
+<p><strong>解析出标准 SQL</strong></p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>python binlog2sql.py -h127.0.0.1 -P3306 -uadmin -p<span class="s1">'admin'</span> -dtest -t test3 test4 --start-file<span class="o">=</span><span class="s1">'mysql-bin.000002'</span>
+
+<span class="c"># 输出：</span>
+<span class="c"># INSERT INTO `test`.`test3`(`addtime`, `data`, `id`) VALUES ('2016-12-10 13:03:38', 'english', 4);</span>
+<span class="c"># UPDATE `test`.`test3` SET `addtime`='2016-12-10 12:00:00', `data`='中文', `id`=3 WHERE `addtime`='2016-12-10 13:03:22' AND `data`='中文' AND `id`=3 LIMIT 1;</span>
+<span class="c"># DELETE FROM `test`.`test3` WHERE `addtime`='2016-12-10 13:03:38' AND `data`='english' AND `id`=4 LIMIT 1;</span>
+</code></pre>
+</div>
+
+<p><strong>解析出回滚 SQL</strong></p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>python binlog2sql.py --flashback -h127.0.0.1 -P3306 -uadmin -p<span class="s1">'admin'</span> -dtest -ttest3 --start-file<span class="o">=</span><span class="s1">'mysql-bin.000002'</span> --start-position<span class="o">=</span>763 --stop-position<span class="o">=</span>1147
+
+<span class="c"># 输出：</span>
+<span class="c"># INSERT INTO `test`.`test3`(`addtime`, `data`, `id`) VALUES ('2016-12-10 13:03:38', 'english', 4);</span>
+<span class="c"># UPDATE `test`.`test3` SET `addtime`='2016-12-10 13:03:22', `data`='中文', `id`=3 WHERE `addtime`='2016-12-10 12:00:00' AND `data`='中文' AND `id`=3 LIMIT 1;</span>
+</code></pre>
+</div>
+
+<h2 id="选项说明">选项说明</h2>
+
+<h3 id="mysql-连接配置">MySQL 连接配置</h3>
+<p><code class="highlighter-rouge">-h host; -P port; -u user; -p password</code></p>
+
+<h3 id="解析模式">解析模式</h3>
+<ul>
+  <li><code class="highlighter-rouge">--stop-never</code>：持续解析 binlog。</li>
+  <li><code class="highlighter-rouge">-K, --no-primary-key</code>：对 INSERT 语句去除主键。</li>
+  <li><code class="highlighter-rouge">-B, --flashback</code>：生成回滚 SQL。</li>
+  <li><code class="highlighter-rouge">--back-interval</code>：<code class="highlighter-rouge">-B</code> 模式下，每打印一千行回滚 SQL，加一句 SLEEP 多少秒。</li>
+</ul>
+
+<h3 id="解析范围控制">解析范围控制</h3>
+<ul>
+  <li><code class="highlighter-rouge">--start-file</code>：起始解析文件。</li>
+  <li><code class="highlighter-rouge">--start-position/--start-pos</code>：起始解析位置。</li>
+  <li><code class="highlighter-rouge">--stop-file/--end-file</code>：终止解析文件。</li>
+  <li><code class="highlighter-rouge">--stop-position/--end-pos</code>：终止解析位置。</li>
+  <li><code class="highlighter-rouge">--start-datetime</code>：起始解析时间。</li>
+  <li><code class="highlighter-rouge">--stop-datetime</code>：终止解析时间。</li>
+</ul>
+
+<h3 id="对象过滤">对象过滤</h3>
+<ul>
+  <li><code class="highlighter-rouge">-d, --databases</code>：只解析目标 db 的 SQL。</li>
+  <li><code class="highlighter-rouge">-t, --tables</code>：只解析目标 table 的 SQL。</li>
+  <li><code class="highlighter-rouge">--only-dml</code>：只解析 DML，忽略 DDL。</li>
+  <li><code class="highlighter-rouge">--sql-type</code>：只解析指定类型 (INSERT, UPDATE, DELETE)。</li>
+</ul>
+
+<h2 id="应用案例">应用案例</h2>
+
+<h3 id="误删整张表数据需要紧急回滚">误删整张表数据，需要紧急回滚</h3>
+
+<p><strong>1. 模拟误操作</strong></p>
+<div class="language-sql highlighter-rouge"><pre class="highlight"><code><span class="c1">-- test 库 tbl 表原有数据</span>
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">tbl</span><span class="p">;</span>
+<span class="o">+</span><span class="c1">----+--------+---------------------+</span>
+<span class="o">|</span> <span class="n">id</span> <span class="o">|</span> <span class="n">name</span>   <span class="o">|</span> <span class="n">addtime</span>             <span class="o">|</span>
+<span class="o">+</span><span class="c1">----+--------+---------------------+</span>
+<span class="o">|</span>  <span class="mi">1</span> <span class="o">|</span> <span class="err">小赵</span>   <span class="o">|</span> <span class="mi">2016</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">10</span> <span class="mi">00</span><span class="p">:</span><span class="mi">04</span><span class="p">:</span><span class="mi">33</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">2</span> <span class="o">|</span> <span class="err">小钱</span>   <span class="o">|</span> <span class="mi">2016</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">10</span> <span class="mi">00</span><span class="p">:</span><span class="mi">04</span><span class="p">:</span><span class="mi">48</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">3</span> <span class="o">|</span> <span class="err">小孙</span>   <span class="o">|</span> <span class="mi">2016</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">13</span> <span class="mi">20</span><span class="p">:</span><span class="mi">25</span><span class="p">:</span><span class="mi">00</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">4</span> <span class="o">|</span> <span class="err">小李</span>   <span class="o">|</span> <span class="mi">2016</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">12</span> <span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span> <span class="o">|</span>
+<span class="o">+</span><span class="c1">----+--------+---------------------+</span>
+
+<span class="c1">-- 误操作清空表</span>
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">delete</span> <span class="k">from</span> <span class="n">tbl</span><span class="p">;</span>
+<span class="n">Query</span> <span class="n">OK</span><span class="p">,</span> <span class="mi">4</span> <span class="k">rows</span> <span class="n">affected</span> <span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p><strong>2. 查看当前 binlog</strong></p>
+<div class="language-sql highlighter-rouge"><pre class="highlight"><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">show</span> <span class="n">master</span> <span class="n">status</span><span class="p">;</span>
+<span class="o">+</span><span class="c1">---------------+----------+</span>
+<span class="o">|</span> <span class="n">File</span>          <span class="o">|</span> <span class="k">Position</span> <span class="o">|</span>
+<span class="o">+</span><span class="c1">---------------+----------+</span>
+<span class="o">|</span> <span class="n">binlog</span><span class="p">.</span><span class="mi">000023</span> <span class="o">|</span>  <span class="mi">1036958</span> <span class="o">|</span>
+<span class="o">+</span><span class="c1">---------------+----------+</span>
+</code></pre>
+</div>
+
+<p><strong>3. 定位误操作 SQL 的位置</strong></p>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>python binlog2sql/binlog2sql.py -h127.0.0.1 -P3306 -uadmin -p<span class="s1">'admin'</span> -dtest -ttbl --start-file<span class="o">=</span><span class="s1">'mysql-bin.000052'</span> --start-datetime<span class="o">=</span><span class="s1">'2016-12-13 20:25:00'</span> --stop-datetime<span class="o">=</span><span class="s1">'2016-12-13 20:30:00'</span>
+</code></pre>
+</div>
+
+<p><strong>4. 生成回滚 SQL</strong></p>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>python binlog2sql/binlog2sql.py -h127.0.0.1 -P3306 -uadmin -p<span class="s1">'admin'</span> -dtest -ttbl --start-file<span class="o">=</span><span class="s1">'mysql-bin.000052'</span> --start-position<span class="o">=</span>3346 --stop-position<span class="o">=</span>3556 -B &gt; rollback.sql
+</code></pre>
+</div>
+
+<p><strong>5. 执行回滚并确认</strong></p>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>mysql -h127.0.0.1 -P3306 -uadmin -p<span class="s1">'admin'</span> &lt; rollback.sql
+
+<span class="gp">mysql&gt; </span><span class="k">select</span> <span class="k">*</span> from tbl;
+</code></pre>
+</div>
+
+
+
+        </div>
+        <div class="mt5 mb4 bt b--black-05 pt4">
+  <p class="f6 gray italic tc">Thanks for reading! — muan</p>
+</div>
+
+      </main>
+      <section class="bt b--black-05 pv4 flex justify-between">
+  
+    <a href="http://localhost:4000/posts/DB" class="link blue hover-mid-gray fw6">
+      ← DB，mysql相关
+    </a>
+  
+  
+    <a href="http://localhost:4000/posts/study" class="link blue hover-mid-gray fw6">
+      Study →
+    </a>
+  
+</section>
+    </div>
+      <footer class="pv4 tc silver f6">
+        <p class="mb2">just be yourself and one day you will find someone who loves you for everything you are.</p>
+        <p>© 2025 勇敢做自己. Built with Jekyll & ❤️</p>
+      </footer>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+      (function() {
+        const container = document.getElementById('canvas-container');
+        if (!container) return;
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, container.offsetWidth / container.offsetHeight, 0.1, 2000);
+        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        renderer.setSize(container.offsetWidth, container.offsetHeight);
+        container.appendChild(renderer.domElement);
+
+        // Starfield Creation
+        function createStarfield(count, size, color, spread) {
+          const geometry = new THREE.BufferGeometry();
+          const vertices = [];
+          for (let i = 0; i < count; i++) {
+            vertices.push(THREE.MathUtils.randFloatSpread(spread));
+            vertices.push(THREE.MathUtils.randFloatSpread(spread));
+            vertices.push(THREE.MathUtils.randFloatSpread(spread));
+          }
+          geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+          const material = new THREE.PointsMaterial({ 
+            color: color, 
+            size: size, 
+            transparent: true, 
+            opacity: Math.random() * 0.5 + 0.5,
+            blending: THREE.AdditiveBlending 
+          });
+          return new THREE.Points(geometry, material);
+        }
+
+        const stars1 = createStarfield(1500, 2, 0xffffff, 2000);
+        const stars2 = createStarfield(1000, 1.5, 0x4488ff, 2000);
+        const stars3 = createStarfield(500, 3, 0xffaa44, 2000);
+        
+        scene.add(stars1);
+        scene.add(stars2);
+        scene.add(stars3);
+
+        // Earth & Moon
+        const textureLoader = new THREE.TextureLoader();
+        
+        // Earth
+        const earthGeometry = new THREE.SphereGeometry(200, 64, 64);
+        const earthMaterial = new THREE.MeshPhongMaterial({
+          map: textureLoader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_atmos_2048.jpg'),
+          specularMap: textureLoader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_specular_2048.jpg'),
+          normalMap: textureLoader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_normal_2048.jpg'),
+          normalScale: new THREE.Vector2(0.85, 0.85),
+          shininess: 10
+        });
+        const earth = new THREE.Mesh(earthGeometry, earthMaterial);
+        earth.position.set(400, 0, 0);
+        scene.add(earth);
+
+        // Clouds
+        const cloudGeometry = new THREE.SphereGeometry(205, 64, 64);
+        const cloudMaterial = new THREE.MeshLambertMaterial({
+          map: textureLoader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_clouds_1024.png'),
+          transparent: true,
+          opacity: 0.4
+        });
+        const clouds = new THREE.Mesh(cloudGeometry, cloudMaterial);
+        earth.add(clouds);
+
+        // Moon
+        const moonGeometry = new THREE.SphereGeometry(50, 32, 32);
+        const moonMaterial = new THREE.MeshPhongMaterial({
+          map: textureLoader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/moon_1024.jpg'),
+          shininess: 0
+        });
+        const moon = new THREE.Mesh(moonGeometry, moonMaterial);
+        scene.add(moon);
+
+        // Lighting
+        const ambientLight = new THREE.AmbientLight(0x404040, 1.5);
+        scene.add(ambientLight);
+
+        const sunLight = new THREE.DirectionalLight(0xffffff, 2);
+        sunLight.position.set(500, 300, 500);
+        scene.add(sunLight);
+
+        camera.position.z = 1000;
+
+        let moonAngle = 0;
+
+        function animate() {
+          requestAnimationFrame(animate);
+          
+          stars1.rotation.y += 0.0001;
+          stars2.rotation.y -= 0.00015;
+          
+          // Earth Animation
+          earth.rotation.y += 0.002;
+          clouds.rotation.y += 0.001;
+
+          // Moon Animation
+          moonAngle += 0.005;
+          moon.position.x = earth.position.x + Math.cos(moonAngle) * 500;
+          moon.position.z = earth.position.z + Math.sin(moonAngle) * 500;
+          moon.rotation.y += 0.005;
+          
+          renderer.render(scene, camera);
+        }
+
+        window.addEventListener('resize', () => {
+          camera.aspect = container.offsetWidth / container.offsetHeight;
+          camera.updateProjectionMatrix();
+          renderer.setSize(container.offsetWidth, container.offsetHeight);
+        });
+
+        animate();
+      })();
+
+      // Mouse Trail Effect
+      (function() {
+        let lastMouseX = 0;
+        let lastMouseY = 0;
+        const starColors = ['#fff', '#667eea', '#764ba2', '#a0aec0'];
+
+        document.addEventListener('mousemove', (e) => {
+          const distance = Math.sqrt(Math.pow(e.clientX - lastMouseX, 2) + Math.pow(e.clientY - lastMouseY, 2));
+          
+          if (distance > 10) {
+            createStar(e.clientX, e.clientY);
+            lastMouseX = e.clientX;
+            lastMouseY = e.clientY;
+          }
+        });
+
+        function createStar(x, y) {
+          const star = document.createElement('div');
+          star.className = 'star-particle';
+          
+          const size = Math.random() * 6 + 2;
+          const color = starColors[Math.floor(Math.random() * starColors.length)];
+          
+          star.style.width = `${size}px`;
+          star.style.height = `${size}px`;
+          star.style.left = `${x}px`;
+          star.style.top = `${y}px`;
+          star.style.background = color;
+          star.style.boxShadow = `0 0 ${size * 2}px ${size / 2}px ${color}`;
+          
+          document.body.appendChild(star);
+          
+          setTimeout(() => {
+            star.remove();
+          }, 1000);
+        }
+      })();
+    </script>
+</body>
+</html>

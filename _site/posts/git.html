@@ -1,0 +1,427 @@
+
+
+<head>
+    <meta name="description" content="just be yourself.">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content='Git 常用命令 - 勇敢做自己' name='title' />
+    <meta content='Git 常用命令 - 勇敢做自己' name='og:title' />
+    <title>Git 常用命令 - 勇敢做自己</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Serif+SC:wght@400;700&family=Zhi+Mang+Xing&display=swap" rel="stylesheet">
+<link href='/images/favicon.png' rel='shortcut icon'>
+<link href='/stylesheets/style.css' rel='stylesheet' type='text/css' />
+<link href='/stylesheets/syntax.css' rel='stylesheet' type='text/css' />
+
+<meta content='width=device-width, initial-scale=1.0, user-scalable=no' name='viewport'>
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+  <meta content='http://localhost:4000/posts/git' property='og:url' />
+  <meta content="  持续更新中仓库初始化与管理在本地初始化新仓库git init将文件纳入版本控制git add .提交git commit -m "commit message"检查当前文件状态git status远程仓库操作从现有库克隆git c..." property='og:description' />
+  <meta content="article" property="og:type" />
+
+<!-- - -->
+
+
+
+
+
+</head>
+<body class="lh-copy dark-gray pa0 f6 sans-serif animate-fade-in post-page">
+    <header class="tl pv5 hero-gradient">
+      <div id="canvas-container"></div>
+      <div class="hero-content mw8 center ph3-ns ph2">
+        <a href="http://localhost:4000" class="floating dib">
+          <img src="/images/logo.png" alt="Home" width="80" height="90" class="br-100 pa2 bg-white-20 shadow-2">
+        </a>
+        <h1 class="f2 fw6 mb0 mt3 white">勇敢做自己</h1>
+        <p class="f5 white-80 mt2">just be yourself.</p>
+      </div>
+    </header>
+    
+    <div class="mw8 center ph3-ns ph2 mt4 mb5">
+      <div class="glass br3 overflow-hidden">
+        <nav class="bb b--black-05 pv3 tc ink-nav" aria-label="Main">
+          <a class="link-underline dib mh3 pv1 fw5 ink-blue" href="/">文章</a>
+          <a class="link-underline dib mh3 pv1 fw5 ink-blue" href="/about">关于我</a>
+        </nav>
+
+        <main class="tl f5 relative pa4 pa5-ns ink-content">
+        
+          <div class="mb4">
+            <div class="fw600 light-silver mt1">01 Jul 2018</div>
+            <h1 class="ttu f2 mt0 lh-title cb mb2 blue">
+              
+              Git 常用命令
+            </h1>
+            
+          </div>
+        
+        <div class="markdown-body">
+          <blockquote>
+  <p><strong><em>持续更新中</em></strong></p>
+</blockquote>
+
+<h2 id="仓库初始化与管理">仓库初始化与管理</h2>
+
+<h3 id="在本地初始化新仓库">在本地初始化新仓库</h3>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>git init
+</code></pre>
+</div>
+
+<h3 id="将文件纳入版本控制">将文件纳入版本控制</h3>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>git add .
+</code></pre>
+</div>
+
+<h3 id="提交">提交</h3>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>git commit -m <span class="s2">"commit message"</span>
+</code></pre>
+</div>
+
+<h3 id="检查当前文件状态">检查当前文件状态</h3>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>git status
+</code></pre>
+</div>
+
+<h2 id="远程仓库操作">远程仓库操作</h2>
+
+<h3 id="从现有库克隆">从现有库克隆</h3>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>git clone https://github.com/…/PrettyGirls.git 
+</code></pre>
+</div>
+
+<h3 id="查看远程仓库地址">查看远程仓库地址</h3>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>git remote -v
+</code></pre>
+</div>
+
+<h3 id="更换远程仓库地址">更换远程仓库地址</h3>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>git remote <span class="nb">set</span>-url origin URL 
+</code></pre>
+</div>
+
+<h3 id="删除现有远程仓库">删除现有远程仓库</h3>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>git remote rm origin 
+</code></pre>
+</div>
+
+<h3 id="添加新远程仓库">添加新远程仓库</h3>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>git remote add origin url 
+</code></pre>
+</div>
+
+<h3 id="查看分支">查看分支</h3>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="c"># 查看本地和远程所有分支</span>
+git branch -a
+</code></pre>
+</div>
+
+<h3 id="检出远程分支">检出远程分支</h3>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="c"># 在本地起名为 dev 分支，并切换到本地的 dev 分支</span>
+git checkout -b dev origin/dev 
+</code></pre>
+</div>
+
+<h2 id="撤销与回退">撤销与回退</h2>
+
+<h3 id="撤销-git-commit-操作">撤销 git commit 操作</h3>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="c"># 撤销 commit，保留修改</span>
+git reset --soft &lt;commit_id&gt;  
+</code></pre>
+</div>
+
+<h3 id="回退到某个-commit">回退到某个 commit</h3>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="c"># 回退到某个 commit，不保留修改 (&lt;commit_id&gt; 从 git log 中取，取前 7 位即可)</span>
+git reset --hard &lt;commit_id&gt; 
+</code></pre>
+</div>
+
+<h3 id="撤销-git-push-操作">撤销 git push 操作</h3>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="c"># 撤销已 push 的 commit</span>
+git revert &lt;commit_id&gt;
+</code></pre>
+</div>
+<blockquote>
+  <p><strong>原理</strong>: <code class="highlighter-rouge">git revert</code> 会产生一个新的 commit，它和指定 SHA 对应的 commit 是相反的。任何从原先的 commit 里删除的内容会在新的 commit 里被加回去，任何在原先的 commit 里加入的内容会在新的 commit 里被删除。这是 Git 最安全、最基本的撤销场景，因为它并不会改变历史。</p>
+</blockquote>
+
+<h2 id="修改提交人信息">修改提交人信息</h2>
+<div class="highlighter-rouge"><pre class="highlight"><code>git config --global user.name "myname"
+git config --global user.email "myname@email.com"
+
+git config user.email "xxx@email.com"
+git config user.name "xxx"
+</code></pre>
+</div>
+
+<h2 id="设置代理">设置代理</h2>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>设置代理：
+
+git config --global http.proxy 'socks5://127.0.0.1:5432' 
+git config --global https.proxy 'socks5://127.0.0.1:1080'
+ 
+#只对github.com
+git config --global http.https://github.com.proxy socks5://127.0.0.1:1080
+
+查看代理：
+
+git config --global --get http.proxy
+git config --global --get https.proxy
+ 
+
+取消代理：
+
+git config --global --unset http.proxy
+git config --global --unset https.proxy
+</code></pre>
+</div>
+
+<h2 id="一个项目设置两个git地址并最终实现一次性同时推送到两个git地址">一个项目设置两个git地址，并最终实现一次性同时推送到两个git地址</h2>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>git remote set-url --add origin https://git.growingio.cn/growing/backend/nuza-cdp.git   //给origin添加一个远程push地址，这样一次push就能同时push到两个地址上面
+git remote -v //查看是否多了一条push地址（这个可不执行）
+
+删除
+git remote set-url --delete origin git@gitee.com:teamemory/myH5.git
+</code></pre>
+</div>
+
+<h2 id="相对应资料">相对应资料</h2>
+
+<blockquote>
+  <p><a href="https://blog.csdn.net/revitalizing/article/details/51337592">https://blog.csdn.net/revitalizing/article/details/51337592</a></p>
+</blockquote>
+
+<p>##代码提交统计</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>git log --pretty='%aN' --no-merges| sort | uniq -c | sort -k1 -n -r | head -n 5
+
+/Users/test/tools/gitstats
+
+python gitstats.py ../../work/nuza/ ./test
+</code></pre>
+</div>
+
+<h2 id="代码清理">代码清理</h2>
+<div class="highlighter-rouge"><pre class="highlight"><code>git clean -df
+</code></pre>
+</div>
+
+<h2 id="打代码标签">打代码标签</h2>
+
+<h3 id="标签">标签</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>git tag -a v1.0 -m 'v1.0'
+</code></pre>
+</div>
+
+<h3 id="查看已有标签">查看已有标签</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>git tag
+</code></pre>
+</div>
+
+<h3 id="推送到远端">推送到远端</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>git push origin v1.0
+</code></pre>
+</div>
+
+<h3 id="清除历史提交记录">清除历史提交记录</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>git checkout --orphan new1
+git add .
+git commit -m "init"
+git branch -D master
+git branch -m master
+git push -f origin master
+
+
+</code></pre>
+</div>
+
+
+
+        </div>
+        <div class="mt5 mb4 bt b--black-05 pt4">
+  <p class="f6 gray italic tc">Thanks for reading! — muan</p>
+</div>
+
+      </main>
+      <section class="bt b--black-05 pv4 flex justify-between">
+  
+    <a href="http://localhost:4000/posts/linux" class="link blue hover-mid-gray fw6">
+      ← linux常用命令
+    </a>
+  
+  
+    <a href="http://localhost:4000/posts/OnJava8" class="link blue hover-mid-gray fw6">
+      OnJava8笔记 →
+    </a>
+  
+</section>
+    </div>
+      <footer class="pv4 tc silver f6">
+        <p class="mb2">just be yourself and one day you will find someone who loves you for everything you are.</p>
+        <p>© 2025 勇敢做自己. Built with Jekyll & ❤️</p>
+      </footer>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+      (function() {
+        const container = document.getElementById('canvas-container');
+        if (!container) return;
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, container.offsetWidth / container.offsetHeight, 0.1, 2000);
+        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        renderer.setSize(container.offsetWidth, container.offsetHeight);
+        container.appendChild(renderer.domElement);
+
+        // Starfield Creation
+        function createStarfield(count, size, color, spread) {
+          const geometry = new THREE.BufferGeometry();
+          const vertices = [];
+          for (let i = 0; i < count; i++) {
+            vertices.push(THREE.MathUtils.randFloatSpread(spread));
+            vertices.push(THREE.MathUtils.randFloatSpread(spread));
+            vertices.push(THREE.MathUtils.randFloatSpread(spread));
+          }
+          geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+          const material = new THREE.PointsMaterial({ 
+            color: color, 
+            size: size, 
+            transparent: true, 
+            opacity: Math.random() * 0.5 + 0.5,
+            blending: THREE.AdditiveBlending 
+          });
+          return new THREE.Points(geometry, material);
+        }
+
+        const stars1 = createStarfield(1500, 2, 0xffffff, 2000);
+        const stars2 = createStarfield(1000, 1.5, 0x4488ff, 2000);
+        const stars3 = createStarfield(500, 3, 0xffaa44, 2000);
+        
+        scene.add(stars1);
+        scene.add(stars2);
+        scene.add(stars3);
+
+        // Earth & Moon
+        const textureLoader = new THREE.TextureLoader();
+        
+        // Earth
+        const earthGeometry = new THREE.SphereGeometry(200, 64, 64);
+        const earthMaterial = new THREE.MeshPhongMaterial({
+          map: textureLoader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_atmos_2048.jpg'),
+          specularMap: textureLoader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_specular_2048.jpg'),
+          normalMap: textureLoader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_normal_2048.jpg'),
+          normalScale: new THREE.Vector2(0.85, 0.85),
+          shininess: 10
+        });
+        const earth = new THREE.Mesh(earthGeometry, earthMaterial);
+        earth.position.set(400, 0, 0);
+        scene.add(earth);
+
+        // Clouds
+        const cloudGeometry = new THREE.SphereGeometry(205, 64, 64);
+        const cloudMaterial = new THREE.MeshLambertMaterial({
+          map: textureLoader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_clouds_1024.png'),
+          transparent: true,
+          opacity: 0.4
+        });
+        const clouds = new THREE.Mesh(cloudGeometry, cloudMaterial);
+        earth.add(clouds);
+
+        // Moon
+        const moonGeometry = new THREE.SphereGeometry(50, 32, 32);
+        const moonMaterial = new THREE.MeshPhongMaterial({
+          map: textureLoader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/moon_1024.jpg'),
+          shininess: 0
+        });
+        const moon = new THREE.Mesh(moonGeometry, moonMaterial);
+        scene.add(moon);
+
+        // Lighting
+        const ambientLight = new THREE.AmbientLight(0x404040, 1.5);
+        scene.add(ambientLight);
+
+        const sunLight = new THREE.DirectionalLight(0xffffff, 2);
+        sunLight.position.set(500, 300, 500);
+        scene.add(sunLight);
+
+        camera.position.z = 1000;
+
+        let moonAngle = 0;
+
+        function animate() {
+          requestAnimationFrame(animate);
+          
+          stars1.rotation.y += 0.0001;
+          stars2.rotation.y -= 0.00015;
+          
+          // Earth Animation
+          earth.rotation.y += 0.002;
+          clouds.rotation.y += 0.001;
+
+          // Moon Animation
+          moonAngle += 0.005;
+          moon.position.x = earth.position.x + Math.cos(moonAngle) * 500;
+          moon.position.z = earth.position.z + Math.sin(moonAngle) * 500;
+          moon.rotation.y += 0.005;
+          
+          renderer.render(scene, camera);
+        }
+
+        window.addEventListener('resize', () => {
+          camera.aspect = container.offsetWidth / container.offsetHeight;
+          camera.updateProjectionMatrix();
+          renderer.setSize(container.offsetWidth, container.offsetHeight);
+        });
+
+        animate();
+      })();
+
+      // Mouse Trail Effect
+      (function() {
+        let lastMouseX = 0;
+        let lastMouseY = 0;
+        const starColors = ['#fff', '#667eea', '#764ba2', '#a0aec0'];
+
+        document.addEventListener('mousemove', (e) => {
+          const distance = Math.sqrt(Math.pow(e.clientX - lastMouseX, 2) + Math.pow(e.clientY - lastMouseY, 2));
+          
+          if (distance > 10) {
+            createStar(e.clientX, e.clientY);
+            lastMouseX = e.clientX;
+            lastMouseY = e.clientY;
+          }
+        });
+
+        function createStar(x, y) {
+          const star = document.createElement('div');
+          star.className = 'star-particle';
+          
+          const size = Math.random() * 6 + 2;
+          const color = starColors[Math.floor(Math.random() * starColors.length)];
+          
+          star.style.width = `${size}px`;
+          star.style.height = `${size}px`;
+          star.style.left = `${x}px`;
+          star.style.top = `${y}px`;
+          star.style.background = color;
+          star.style.boxShadow = `0 0 ${size * 2}px ${size / 2}px ${color}`;
+          
+          document.body.appendChild(star);
+          
+          setTimeout(() => {
+            star.remove();
+          }, 1000);
+        }
+      })();
+    </script>
+</body>
+</html>
